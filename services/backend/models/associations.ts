@@ -18,8 +18,8 @@ import Transaction from './finance/transaction';
 import Type from './finance/type';
 import Method from './finance/method';
 
-User.belongsToMany(Role, { through: 'users_roles' });
-Role.belongsToMany(User, { through: 'users_roles' });
+User.belongsToMany(Role, { through: 'users_roles', as: 'Roles' });
+Role.belongsToMany(User, { through: 'users_roles', as: 'Users' });
 
 User.hasOne(Stock);
 Stock.belongsTo(User);
@@ -40,13 +40,13 @@ StockDetails.belongsTo(Stock);
 Recipe.hasMany(Service);
 Service.belongsTo(Recipe);
 
-Recipe.belongsToMany(StockDetails, { through: 'recipes_stock_details_products' });
+Recipe.belongsToMany(StockDetails, { through: 'recipes_stock_details_products', as: 'StockDetails' });
 
-Service.belongsToMany(StockDetails, { through: 'services_stock_details_additional_products' });
-StockDetails.belongsToMany(Service, { through: 'services_stock_details_additional_products' });
+Service.belongsToMany(StockDetails, { through: 'services_stock_details_additional_products', as: 'StockDetails' });
+StockDetails.belongsToMany(Service, { through: 'services_stock_details_additional_products', as: 'Services' });
 
-Service.belongsToMany(Operator, { through: 'services_operators' });
-Operator.belongsToMany(Service, { through: 'services_operators' });
+Service.belongsToMany(Operator, { through: 'services_operators', as: 'Operators' });
+Operator.belongsToMany(Service, { through: 'services_operators', as: 'Services' });
 
 Vehicle.hasOne(Service);
 Service.belongsTo(Vehicle);
@@ -57,8 +57,8 @@ Vehicle.belongsTo(Model);
 VehicleBrand.hasMany(Vehicle);
 Vehicle.belongsTo(VehicleBrand);
 
-Client.belongsToMany(Vehicle, { through: 'clients_vehicles' });
-Vehicle.belongsToMany(Client, { through: 'clients_vehicles' });
+Client.belongsToMany(Vehicle, { through: 'clients_vehicles', as: 'Vehicles' });
+Vehicle.belongsToMany(Client, { through: 'clients_vehicles', as: 'Clients' });
 
 // Finance module
 User.hasMany(Transaction);
@@ -71,7 +71,7 @@ Type.hasMany(Transaction);
 Transaction.belongsTo(Type);
 
 Method.hasMany(Transaction);
-Transaction.belongsToMany(Method, { through: 'transactions_methods' });
+Transaction.belongsToMany(Method, { through: 'transactions_methods', as: 'Methods' });
 
 export { 
     User, 
