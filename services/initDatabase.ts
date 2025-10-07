@@ -76,7 +76,95 @@ async function createTablesManually() {
     await Service.sync({ force: true });
     await Transaction.sync({ force: true });
     
+    // 3. Crear tablas intermedias (many-to-many) después de que existan las tablas padre
+    await createJunctionTables();
+    
     console.log('All tables created manually');
+}
+
+async function createJunctionTables() {
+    // Crear tablas intermedias manualmente
+    const db = (await import('./backend/db')).default;
+    
+    // Tabla users_roles
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS users_roles (
+            userId INTEGER NOT NULL,
+            roleId INTEGER NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            PRIMARY KEY (userId, roleId),
+            FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (roleId) REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB;
+    `);
+    
+    // Tabla clients_vehicles
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS clients_vehicles (
+            clientId INTEGER NOT NULL,
+            vehicleId INTEGER NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            PRIMARY KEY (clientId, vehicleId),
+            FOREIGN KEY (clientId) REFERENCES clients(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (vehicleId) REFERENCES vehicles(id) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB;
+    `);
+    
+    // Tabla services_operators
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS services_operators (
+            serviceId INTEGER NOT NULL,
+            operatorId INTEGER NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            PRIMARY KEY (serviceId, operatorId),
+            FOREIGN KEY (serviceId) REFERENCES services(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (operatorId) REFERENCES operators(id) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB;
+    `);
+    
+    // Tabla services_stock_details_additional_products
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS services_stock_details_additional_products (
+            serviceId INTEGER NOT NULL,
+            stockDetailId INTEGER NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            PRIMARY KEY (serviceId, stockDetailId),
+            FOREIGN KEY (serviceId) REFERENCES services(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (stockDetailId) REFERENCES stock_details(id) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB;
+    `);
+    
+    // Tabla recipes_stock_details_products
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS recipes_stock_details_products (
+            recipeId INTEGER NOT NULL,
+            stockDetailId INTEGER NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            PRIMARY KEY (recipeId, stockDetailId),
+            FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (stockDetailId) REFERENCES stock_details(id) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB;
+    `);
+    
+    // Tabla transactions_methods
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS transactions_methods (
+            transactionId INTEGER NOT NULL,
+            methodId INTEGER NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            PRIMARY KEY (transactionId, methodId),
+            FOREIGN KEY (transactionId) REFERENCES transactions(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (methodId) REFERENCES methods(id) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB;
+    `);
+    
+    console.log('Junction tables created');
 }
 
 
