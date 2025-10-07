@@ -30,7 +30,7 @@ export async function initDatabase() {
         console.error('Error with alter sync, trying force sync:', error);
         try {
             // Si falla, usar force: true
-            await db.sync({ force: true });
+            await db.sync();
             console.log('Database force synchronized');
             await dbConfig();
             console.log('Database configured');
