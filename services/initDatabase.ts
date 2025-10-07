@@ -18,10 +18,27 @@ async function dbConfig() {
 }
 
 export async function initDatabase() {
-    await db.sync({ force: true });
-    console.log('Database synchronized');
-    await dbConfig();
-    console.log('Database configured');
+    try {
+        // Primero intentar sincronizar sin forzar
+        await db.sync({ alter: true });
+        console.log('Database synchronized');
+        
+        // Luego configurar los datos
+        await dbConfig();
+        console.log('Database configured');
+    } catch (error) {
+        console.error('Error with alter sync, trying force sync:', error);
+        try {
+            // Si falla, usar force: true
+            await db.sync({ force: true });
+            console.log('Database force synchronized');
+            await dbConfig();
+            console.log('Database configured');
+        } catch (forceError) {
+            console.error('Error with force sync:', forceError);
+            throw forceError;
+        }
+    }
 }
 
 
