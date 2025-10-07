@@ -64,10 +64,11 @@ export async function GET() {
         const stocks = await Stock.findAll({
             include: [{
                 model: Product,
+                as: 'Product',
                 attributes: ['name', 'unit'],
-
             }, {
                 model: StockDetails,
+                as: 'StockDetails',
                 attributes: ['quantity', 'price'],
             }]
         });

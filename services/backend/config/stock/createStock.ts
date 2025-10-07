@@ -41,7 +41,7 @@ const defaultStocks: Omit<StockCreationAttributes, 'id' | 'created_at' | 'update
 export default async function createStocks() {
     const stocks = await Stock.bulkCreate(defaultStocks);
 
-    stocks.forEach(async (stock) => {
+    for (const stock of stocks) {
         await stock.createProduct(defaultProducts[Math.floor(Math.random() * defaultProducts.length)] as Product);
         await stock.setUser(1);
 
@@ -51,5 +51,5 @@ export default async function createStocks() {
             await details.createBrand(defaultBrands[Math.floor(Math.random() * defaultBrands.length)] as Brand);
             await details.createState(defaultStates[Math.floor(Math.random() * defaultStates.length)] as State);
         }
-    });
+    }
 }
