@@ -15,7 +15,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         const stock = await Stock.findByPk(id);
         if (!stock) return NextResponse.json({ error: 'Stock not found' }, { status: 404 });
         await stock.update({ minimum_quantity });
-        const reloaded = await Stock.findByPk(id, { include: [Product] });
+        const reloaded = await Stock.findByPk(id, { include: [{ model: Product, as: 'Product' }] });
         const json: any = reloaded ? (reloaded as any).toJSON() : stock.toJSON();
         const product = json.product ?? json.Product ?? null;
         const flattened = {
@@ -70,7 +70,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await params;
-        const stock = await Stock.findByPk(id, { include: [Product] });
+        const stock = await Stock.findByPk(id, { include: [{ model: Product, as: 'Product' }] });
         return NextResponse.json(stock);
     } catch (error) {
         return NextResponse.json({ error: 'Error getting stock' }, { status: 500 });
