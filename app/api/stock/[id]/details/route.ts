@@ -13,7 +13,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         const stock = await Stock.findByPk(id, {
             include: {
                 model: StockDetails,
-                include: [Brand, State]
+                as: 'StockDetails',
+                include: [
+                    { model: Brand, as: 'Brand' },
+                    { model: State, as: 'State' }
+                ]
             }
         });
 

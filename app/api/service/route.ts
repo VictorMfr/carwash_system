@@ -57,7 +57,12 @@ export async function POST(request: Request) {
 
         // Return service with associations
         const serviceWithAssociations = await Service.findByPk(service.id, {
-            include: [Recipe, Operator, Vehicle, StockDetails]
+            include: [
+                { model: Recipe, as: 'Recipe' },
+                { model: Operator, as: 'Operators' },
+                { model: Vehicle, as: 'Vehicle' },
+                { model: StockDetails, as: 'StockDetails' }
+            ]
         });
 
         return NextResponse.json(serviceWithAssociations);
@@ -70,7 +75,12 @@ export async function POST(request: Request) {
 export async function GET() {
     try {
         const services = await Service.findAll({
-            include: [Recipe, Operator, Vehicle, StockDetails],
+            include: [
+                { model: Recipe, as: 'Recipe' },
+                { model: Operator, as: 'Operators' },
+                { model: Vehicle, as: 'Vehicle' },
+                { model: StockDetails, as: 'StockDetails' }
+            ],
             order: [['created_at', 'DESC']]
         });
 

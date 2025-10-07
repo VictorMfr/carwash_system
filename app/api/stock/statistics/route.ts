@@ -9,19 +9,23 @@ export async function GET() {
             include: [
                 {
                     model: Stock,
+                    as: 'Stock',
                     include: [
                         {
                             model: Product,
+                            as: 'Product',
                             attributes: ['name'],
                         }
                     ]
                 },
                 {
                     model: Brand,
+                    as: 'Brand',
                     attributes: ['name'],
                 },
                 {
                     model: State,
+                    as: 'State',
                     attributes: ['name'],
                 }
             ],

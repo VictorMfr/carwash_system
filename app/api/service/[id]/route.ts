@@ -7,7 +7,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     try {
         const { id } = await params;
         const service = await Service.findByPk(id, {
-            include: [Recipe, Operator, Vehicle, StockDetails]
+            include: [
+                { model: Recipe, as: 'Recipe' },
+                { model: Operator, as: 'Operators' },
+                { model: Vehicle, as: 'Vehicle' },
+                { model: StockDetails, as: 'StockDetails' }
+            ]
         });
 
         if (!service) {
@@ -86,7 +91,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
         // Return updated service with associations
         const updatedService = await Service.findByPk(id, {
-            include: [Recipe, Operator, Vehicle, StockDetails]
+            include: [
+                { model: Recipe, as: 'Recipe' },
+                { model: Operator, as: 'Operators' },
+                { model: Vehicle, as: 'Vehicle' },
+                { model: StockDetails, as: 'StockDetails' }
+            ]
         });
 
         return NextResponse.json(updatedService);

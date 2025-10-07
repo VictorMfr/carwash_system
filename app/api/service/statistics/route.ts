@@ -13,6 +13,7 @@ export async function GET() {
             ],
             include: [{
                 model: Recipe,
+                as: 'Recipe',
                 attributes: ['name'],
                 required: true
             }],
@@ -28,6 +29,7 @@ export async function GET() {
             ],
             include: [{
                 model: Vehicle,
+                as: 'Vehicle',
                 attributes: ['license_plate'],
                 required: true
             }],
@@ -42,6 +44,7 @@ export async function GET() {
             ],
             include: [{
                 model: Operator,
+                as: 'Operators',
                 attributes: ['name', 'lastname'],
                 required: true
             }],

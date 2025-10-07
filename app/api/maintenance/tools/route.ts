@@ -9,11 +9,13 @@ export async function GET() {
             include: [
                 {
                     model: Stock,
+                    as: 'Stock',
                     attributes: ['id', 'total_quantity', 'minimum_quantity'],
                     required: true,
                     include: [
                         {
                             model: Product,
+                            as: 'Product',
                             attributes: ['id', 'name', 'isTool'],
                             required: true,
                             where: { isTool: true }
@@ -22,11 +24,13 @@ export async function GET() {
                 },
                 {
                     model: Brand,
+                    as: 'Brand',
                     attributes: ['id', 'name'],
                     required: false
                 },
                 {
                     model: State,
+                    as: 'State',
                     attributes: ['id', 'name'],
                     required: false
                 }
