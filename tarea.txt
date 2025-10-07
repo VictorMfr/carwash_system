@@ -1,0 +1,57 @@
+REQUISITOS FUNCIONALES
+
+1. Módulo Autenticación
+1.1. Iniciar sesión /listo
+1.2. Cerrar sesión /listo
+1.3. Recuperar contraseña /no hace hash al password nuevo
+
+2. Modulo Usuarios
+2.1. Crear Usuario /listo
+2.2. Listar Usuarios /listo
+2.3. Editar Usuario /listo
+2.4. Eliminar Usuario /listo
+
+SECCION DE INVENTARIO
+
+3. Modulo Producto
+3.1. Crear Producto /listo
+3.2. Listar Productos /listo
+3.3. Editar Producto /listo
+3.4. Eliminar Producto /listo
+
+4. Modulo Marca
+4.1. Crear Marca /listo
+4.2. Listar Marcas /listo
+4.3. Editar Marca /listo
+4.4. Eliminar Marca /listo
+
+5. Modulo estados
+5.1. Crear Estado /listo
+5.2. Listar Estados /listo
+5.3. Editar Estado /listo
+5.4. Eliminar Estado /listo
+
+6. Modulo Inventario
+6.1. Crear Inventario /listo
+6.2. Listar Inventarios /listo
+6.3. Editar Inventario /listo
+6.4. Eliminar Inventario /listo
+
+7. Modulo Mantenimiento
+7.1. Modificar estado /
+
+
+OTRAS TAREAS
+1. Trabajar la landing page
+
+PROBLEMAS
+
+1. A veces busco el problema en un lugar donde no era
+2. A veces de tanta rigidez en el codigo termino teniendo mas problemas de validacion
+
+REGLAS GENERALES
+1. Dividir responsabilidades
+
+
+
+
