@@ -10,6 +10,7 @@ const db = new Sequelize(
         host: process.env.DB_HOST || 'localhost',
         dialect: 'mysql',
         dialectModule: mysql2,
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
     }
 );
 
