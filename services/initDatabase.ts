@@ -20,7 +20,7 @@ async function dbConfig() {
 export async function initDatabase() {
     try {
         // Primero intentar sincronizar sin forzar
-        await db.sync({ alter: true });
+        await db.sync();
         console.log('Database synchronized');
         
         // Luego configurar los datos
