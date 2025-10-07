@@ -18,8 +18,8 @@ import Transaction from './finance/transaction';
 import Type from './finance/type';
 import Method from './finance/method';
 
-User.belongsToMany(Role, { through: 'users_roles', as: 'Roles' });
-Role.belongsToMany(User, { through: 'users_roles', as: 'Users' });
+User.belongsToMany(Role, { through: 'user_roles', as: 'Roles' });
+Role.belongsToMany(User, { through: 'user_roles', as: 'Users' });
 
 User.hasOne(Stock);
 Stock.belongsTo(User);
@@ -64,7 +64,7 @@ Vehicle.belongsToMany(Client, { through: 'clients_vehicles', as: 'Clients' });
 User.hasMany(Transaction);
 Transaction.belongsTo(User);
 
-Account.hasMany(Transaction);
+Account.hasMany(Transaction, { as: 'Transactions' });
 Transaction.belongsTo(Account);
 
 Type.hasMany(Transaction);
