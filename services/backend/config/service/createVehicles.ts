@@ -1,10 +1,11 @@
-import { Vehicle, VehicleBrand, VehicleModel, Client } from "../../models/associations";
-import { defaultVehicleBrands } from "./createVehicleBrands";
-import { defaultVehicleModels } from "./createVehicleModels";
-import { defaultClients } from "./createClients";
+import { Vehicle } from "../../models/associations";
 import { VehicleCreationAttributes } from "../../models/service/vehicle/vehicle";
 
-export const defaultVehicles: Omit<VehicleCreationAttributes, 'id' | 'created_at' | 'updated_at' | 'deleted_at'>[] = [
+type VehicleSeed =
+    Pick<VehicleCreationAttributes, 'license_plate'> &
+    Partial<Pick<VehicleCreationAttributes, 'brandId' | 'modelId'>>;
+
+export const defaultVehicles: VehicleSeed[] = [
     {
         license_plate: 'ABC-123'
     },
@@ -38,5 +39,5 @@ export const defaultVehicles: Omit<VehicleCreationAttributes, 'id' | 'created_at
 ];
 
 export default async function createVehicles() {
-    const vehicles = await Vehicle.bulkCreate(defaultVehicles);
+    const vehicles = await Vehicle.bulkCreate(defaultVehicles as unknown as VehicleCreationAttributes[]);
 }
