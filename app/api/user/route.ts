@@ -43,16 +43,11 @@ export async function GET() {
     try {
         const users = await User.findAll({
             include: [{
-                model: Role,
-                through: {
-                    attributes: []
-                }
+                association: User.associations.Roles, // usa la asociación exacta
+                through: { attributes: [] },
+                attributes: ['id', 'name']
             }],
-            where: {
-                id: {
-                    [Op.ne]: 1
-                }
-            }
+            where: { id: { [Op.ne]: 1 } }
         });
         return NextResponse.json(users);
     } catch (error) {
