@@ -53,7 +53,7 @@ Service.belongsTo(Recipe);
 
 Recipe.belongsToMany(StockDetails, { 
     through: 'recipes_stock_details_products', 
-    as: 'StockDetails',
+    as: 'RecipeStockDetails',
     foreignKey: 'recipeId',
     otherKey: 'stockDetailId'
 });
@@ -66,7 +66,7 @@ StockDetails.belongsToMany(Recipe, {
 
 Service.belongsToMany(StockDetails, { 
     through: 'services_stock_details_additional_products', 
-    as: 'StockDetails',
+    as: 'ServiceStockDetails',
     foreignKey: 'serviceId',
     otherKey: 'stockDetailId'
 });
@@ -131,7 +131,7 @@ Transaction.belongsToMany(Method, {
 });
 Method.belongsToMany(Transaction, { 
     through: 'transactions_methods', 
-    as: 'Transactions',
+    as: 'MethodTransactions',
     foreignKey: 'methodId',
     otherKey: 'transactionId'
 });
