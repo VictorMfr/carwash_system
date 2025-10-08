@@ -50,6 +50,7 @@ Role.init({
 }, {
     sequelize: db,
     tableName: 'roles',
+    modelName: 'Role',
     timestamps: true,
     paranoid: true,
     createdAt: 'created_at',

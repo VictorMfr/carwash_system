@@ -115,6 +115,7 @@ User.init({
 }, {
     sequelize: db,
     tableName: 'users',
+    modelName: 'User',
     timestamps: true,
     paranoid: true,
     createdAt: 'created_at',

@@ -18,8 +18,19 @@ import Transaction from './finance/transaction';
 import Type from './finance/type';
 import Method from './finance/method';
 
-User.belongsToMany(Role, { through: 'user_roles', as: 'Roles' });
-Role.belongsToMany(User, { through: 'user_roles', as: 'Users' });
+// services/backend/models/associations.ts
+User.belongsToMany(Role, {
+    through: 'user_roles',
+    as: 'Roles',
+    foreignKey: 'userId',       // <-- fija las columnas de la pivote
+    otherKey: 'roleId',
+});
+Role.belongsToMany(User, {
+    through: 'user_roles',
+    as: 'Users',
+    foreignKey: 'roleId',
+    otherKey: 'userId',
+});
 
 User.hasOne(Stock);
 Stock.belongsTo(User);
@@ -73,23 +84,23 @@ Transaction.belongsTo(Type);
 Method.hasMany(Transaction);
 Transaction.belongsToMany(Method, { through: 'transactions_methods', as: 'Methods' });
 
-export { 
-    User, 
-    Role, 
-    Stock, 
-    Product, 
-    StockDetails, 
-    StockBrand as Brand, 
-    State, 
-    Recipe, 
-    Service, 
-    Vehicle, 
-    Operator, 
-    VehicleBrand, 
-    Model as VehicleModel, 
-    Account, 
-    Method, 
-    Type, 
+export {
+    User,
+    Role,
+    Stock,
+    Product,
+    StockDetails,
+    StockBrand as Brand,
+    State,
+    Recipe,
+    Service,
+    Vehicle,
+    Operator,
+    VehicleBrand,
+    Model as VehicleModel,
+    Account,
+    Method,
+    Type,
     Client,
     Transaction
 };
