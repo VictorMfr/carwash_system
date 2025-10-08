@@ -93,11 +93,11 @@ Operator.belongsToMany(Service, {
 Vehicle.hasOne(Service);
 Service.belongsTo(Vehicle);
 
-Model.hasMany(Vehicle);
-Vehicle.belongsTo(Model);
+Model.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'modelId' });
+Vehicle.belongsTo(Model, { as: 'Model', foreignKey: 'modelId' });
 
-VehicleBrand.hasMany(Vehicle);
-Vehicle.belongsTo(VehicleBrand);
+VehicleBrand.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'brandId' });
+Vehicle.belongsTo(VehicleBrand, { as: 'Brand', foreignKey: 'brandId' });
 
 Client.belongsToMany(Vehicle, { 
     through: 'clients_vehicles', 

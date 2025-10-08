@@ -50,12 +50,16 @@ export default async function createServices() {
         const vehicle = await service.createVehicle(defaultVehicles[Math.floor(Math.random() * defaultVehicles.length)] as Vehicle);
 
         // brand
-        await vehicle.createBrand(defaultVehicleBrands[Math.floor(Math.random() * defaultVehicleBrands.length)] as VehicleBrand);
+        const randomBrand = defaultVehicleBrands[Math.floor(Math.random() * defaultVehicleBrands.length)];
+        await vehicle.setBrand(randomBrand as VehicleBrand);
+        
         // model
-        await vehicle.createModel(defaultVehicleModels[Math.floor(Math.random() * defaultVehicleModels.length)] as VehicleModel);
+        const randomModel = defaultVehicleModels[Math.floor(Math.random() * defaultVehicleModels.length)];
+        await vehicle.setModel(randomModel as VehicleModel);
 
         // client
-        await vehicle.createClient(defaultClients[Math.floor(Math.random() * defaultClients.length)] as Client);
+        const randomClient = defaultClients[Math.floor(Math.random() * defaultClients.length)];
+        await vehicle.addClient(randomClient as Client);
 
         // 4 random operators
         for (let i = 0; i < 4; i++) {
