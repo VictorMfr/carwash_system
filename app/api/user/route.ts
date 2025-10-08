@@ -43,8 +43,10 @@ export async function GET() {
     try {
         const users = await User.findAll({
             include: {
-                model: Role,
-                through: { attributes: [] }
+                association: 'Roles',
+                through: {
+                    attributes: []
+                }
             },
             where: {
                 id: {
