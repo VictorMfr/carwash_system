@@ -8,7 +8,6 @@ export async function GET() {
         // Get services by recipe
         const servicesByRecipe = await Service.findAll({
             attributes: [
-                'RecipeId',
                 [Service.sequelize!.fn('COUNT', Service.sequelize!.col('Service.id')), 'count']
             ],
             include: [{
@@ -17,14 +16,14 @@ export async function GET() {
                 attributes: ['name'],
                 required: true
             }],
-            group: ['RecipeId', 'Recipe.id', 'Recipe.name'],
-            raw: false
+            group: ['Recipe.id', 'Recipe.name'],
+            raw: false,
+            subQuery: false
         });
 
         // Get services by vehicle
         const servicesByVehicle = await Service.findAll({
             attributes: [
-                'VehicleId',
                 [Service.sequelize!.fn('COUNT', Service.sequelize!.col('Service.id')), 'count']
             ],
             include: [{
@@ -33,23 +32,29 @@ export async function GET() {
                 attributes: ['license_plate'],
                 required: true
             }],
-            group: ['VehicleId', 'Vehicle.id', 'Vehicle.license_plate'],
-            raw: false
+            group: ['Vehicle.id', 'Vehicle.license_plate'],
+            raw: false,
+            subQuery: false
         });
 
         // Get services by operator
-        const servicesByOperator = await Service.findAll({
+        const servicesByOperatorRaw = await Operator.findAll({
             attributes: [
-                [Service.sequelize!.fn('COUNT', Service.sequelize!.col('Service.id')), 'count']
+                'id',
+                'name',
+                'lastname',
+                [Operator.sequelize!.fn('COUNT', Operator.sequelize!.col('Services.id')), 'count']
             ],
             include: [{
-                model: Operator,
-                as: 'Operators',
-                attributes: ['name', 'lastname'],
+                model: Service,
+                as: 'Services',
+                attributes: [],
+                through: { attributes: [] },
                 required: true
             }],
-            group: ['Operators.id', 'Operators.name', 'Operators.lastname'],
-            raw: false
+            group: ['Operator.id', 'Operator.name', 'Operator.lastname'],
+            raw: true,
+            subQuery: false
         });
 
         // Get services by month (last 6 months)
@@ -84,10 +89,10 @@ export async function GET() {
             label: item.Vehicle.license_plate
         }));
 
-        const servicesByOperatorData = servicesByOperator.map((item: any, index) => ({
+        const servicesByOperatorData = servicesByOperatorRaw.map((item: any, index: number) => ({
             id: index,
-            value: parseInt(item.dataValues.count),
-            label: `${item.Operators.name} ${item.Operators.lastname}`
+            value: parseInt(item.count),
+            label: `${item.name} ${item.lastname}`
         }));
 
         const servicesByMonthData = servicesByMonth.map((item: any) => ({

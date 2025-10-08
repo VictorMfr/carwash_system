@@ -29,8 +29,7 @@ export default function usePaymentsCardController() {
         const fetchData = async () => {
             try {
                 const response = await api.get(`/api/service/payments`);
-                // setPayments(response.data);
-                setPayments([]);
+                setPayments(response.data);
             } catch (error) {
                 console.error(error);
                 setPayments([]);

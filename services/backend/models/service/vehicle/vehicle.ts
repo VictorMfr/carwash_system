@@ -31,6 +31,8 @@ import Model from './model';
 class Vehicle extends SequelizeModel<InferAttributes<Vehicle>, InferCreationAttributes<Vehicle>> {
     declare id: CreationOptional<number>;
     declare license_plate: string;
+    declare brandId: CreationOptional<number>;
+    declare modelId: CreationOptional<number>;
 
     // Has one Service
     declare Service: NonAttribute<Service>;
@@ -76,6 +78,14 @@ Vehicle.init({
     license_plate: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    brandId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    modelId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
 }, {
     sequelize: db,

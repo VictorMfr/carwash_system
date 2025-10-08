@@ -61,7 +61,7 @@ export async function POST(request: Request) {
                 { model: Recipe, as: 'Recipe' },
                 { model: Operator, as: 'Operators' },
                 { model: Vehicle, as: 'Vehicle' },
-                { model: StockDetails, as: 'StockDetails' }
+                { model: StockDetails, as: 'ServiceStockDetails' }
             ]
         });
 
@@ -79,7 +79,7 @@ export async function GET() {
                 { model: Recipe, as: 'Recipe' },
                 { model: Operator, as: 'Operators' },
                 { model: Vehicle, as: 'Vehicle' },
-                { model: StockDetails, as: 'StockDetails' }
+                { model: StockDetails, as: 'ServiceStockDetails' }
             ],
             order: [['created_at', 'DESC']]
         });

@@ -11,7 +11,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
                 { model: Recipe, as: 'Recipe' },
                 { model: Operator, as: 'Operators' },
                 { model: Vehicle, as: 'Vehicle' },
-                { model: StockDetails, as: 'StockDetails' }
+                { model: StockDetails, as: 'ServiceStockDetails' }
             ]
         });
 
@@ -95,7 +95,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
                 { model: Recipe, as: 'Recipe' },
                 { model: Operator, as: 'Operators' },
                 { model: Vehicle, as: 'Vehicle' },
-                { model: StockDetails, as: 'StockDetails' }
+                { model: StockDetails, as: 'ServiceStockDetails' }
             ]
         });
 

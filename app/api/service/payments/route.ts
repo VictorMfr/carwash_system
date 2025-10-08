@@ -24,7 +24,7 @@ export async function GET() {
                     attributes: ['license_plate'],
                     include: [{
                         model: Client,
-                        as: 'Client',
+                        as: 'Clients',
                         attributes: ['name', 'lastname']
                     }]
                 },
