@@ -22,7 +22,7 @@ export interface UserContextType {
 export const UserContext = createContext<UserContextType>({
     users: [],
     setUsers: () => { },
-    loadingUsers: false,
+    loadingUsers: true,
     setLoadingUsers: () => { },
     modal: {
         open: false,

@@ -1,6 +1,6 @@
 const defaultRoles = [
     {
-        name: 'Super Admin',
+        name: 'Administrator'
     },
     {
         name: 'Stock Manager'

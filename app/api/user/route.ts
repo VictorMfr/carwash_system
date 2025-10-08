@@ -1,6 +1,7 @@
 import { Role, User } from "@/services/backend/models/associations";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
+import { Op } from "sequelize";
 
 // Create user
 export async function POST(request: Request) {
@@ -43,12 +44,15 @@ export async function GET() {
         const users = await User.findAll({
             include: {
                 model: Role,
-                as: 'Roles',
-                through: { attributes: [] },
+                attributes: [],
             },
+            where: {
+                id: {
+                    [Op.ne]: 1
+                }
+            }
         });
-        const usersWithoutAdmins = users.filter(user => !user.Roles.some(role => role.name === 'Super Admin'));
-        return NextResponse.json(usersWithoutAdmins);
+        return NextResponse.json(users);
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error: 'Error getting users' }, { status: 500 });

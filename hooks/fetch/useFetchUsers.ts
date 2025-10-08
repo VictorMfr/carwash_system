@@ -12,6 +12,7 @@ export default function useFetchUsers(context?: UserContextType) {
 
         if (context) {
             context.setUsers(response.data);
+            context.setLoadingUsers(false);
         } else {
             setUsers(response.data);
         }

@@ -12,7 +12,7 @@ import UserModal from "@/components/User/UserModal/UserModal";
 export default function UserPage() {
     
     const usersContext = useUserContext();
-    const controller = useUserController(usersContext);
+    useUserController(usersContext);
 
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name' },
@@ -45,7 +45,7 @@ export default function UserPage() {
             </Stack>
 
             <DataGrid
-                loading={controller.loadingUsers}
+                loading={usersContext.loadingUsers}
                 rows={usersContext.users}
                 columns={columns}
                 slots={{

@@ -14,7 +14,7 @@ const defaultUsers: UserWithRoles[] = [
         phone: '1234567890',
         address: '1234567890',
         password: 'admin',
-        roles: ['Super Admin']
+        roles: ['Administrator']
     }
 ]
 
