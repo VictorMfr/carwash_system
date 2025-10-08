@@ -25,10 +25,12 @@ export default function useDashboardLayoutController(dashboardContext: Dashboard
                     label: 'Logout',
                     onClick: async () => {
                         try {
+                            uiContext.setLoading(true);
                             await api.post('/api/auth/logout');
                         } finally {
                             uiContext.setAlert(prev => ({ ...prev, open: false }));
                             router.push('/login');
+                            uiContext.setLoading(false);
                         }
                     }
                 }

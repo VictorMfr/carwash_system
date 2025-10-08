@@ -1,7 +1,12 @@
 1. AUTENTICACION
 
-1.1. Iniciar sesion
-1.2. Cerrar sesion
+---------------------------------------------------
+1.1. Iniciar sesion / listo
+1.1.1. Campos incorrectos / listo
+1.1.2. No se encuentra en BD / listo
+---------------------------------------------------
+1.2. Cerrar sesion / listo
+---------------------------------------------------
 1.3. Recuperar contraseña
 
 

@@ -1,21 +1,19 @@
 import { Box, Typography, Stack, Button } from "@mui/material";
 import Link from "next/link";
 
-export default function LandingPage() {
+export default function HomePage() {
     return (
-        <Box
-            sx={{
-                minHeight: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: 'background.default',
-                px: 2,
-                maxWidth: 600,
-                mx: 'auto',
-            }}
-        >
+        <Box sx={{
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: 'background.default',
+            px: 2,
+            maxWidth: 600,
+            mx: 'auto'
+        }}>
             <Typography variant="h3" component="h1" gutterBottom textAlign="center">
                 Gestión Administrativa para Autolavados
             </Typography>

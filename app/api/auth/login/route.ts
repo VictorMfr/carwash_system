@@ -5,52 +5,38 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
     try {
-        const contentType = request.headers.get("content-type") || "";
-        let email: string | null = null;
-        let password: string | null = null;
-
-        if (contentType.includes("application/json")) {
-            const body = await request.json();
-            email = body?.email ?? null;
-            password = body?.password ?? null;
-        } else {
-            const formData = await request.formData();
-            email = (formData.get("email") as string) ?? null;
-            password = (formData.get("password") as string) ?? null;
-        }
+        const { email, password } = await request.json();
+        console.log(email, password);
 
         if (!email || !password) {
-            return NextResponse.json(
-                { error: "Email and password are required", message: null },
-                { status: 400 }
-            );
+            throw new Error("Email and password are required");
         }
-
+        
         const user = await User.findOne({ where: { email } });
+
+
         if (!user) {
-            return NextResponse.json(
-                { error: "User not found", message: null },
-                { status: 401 }
-            );
+            throw new Error("Email or password is incorrect");
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return NextResponse.json(
-                { error: "Invalid password", message: null },
-                { status: 401 }
-            );
+        if (!isPasswordValid || !user) {
+            throw new Error("Email or password is incorrect");
         }
 
         await createSession(user.id.toString());
-        return NextResponse.json(
-            { error: null, message: "Login successful" },
-            { status: 200 }
-        );
+        
+        return NextResponse.json({}, { status: 200 });
     } catch (error) {
-        console.error(error);
+        if (error instanceof Error) {
+            return NextResponse.json(
+                { error: error.message },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json(
-            { error: error instanceof Error ? error.message : String(error), message: null },
+            { error: 'Ocurrió un error desconocido' },
             { status: 500 }
         );
     }
