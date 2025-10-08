@@ -72,6 +72,7 @@ Operator.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Operator',
     tableName: 'operators',
     timestamps: true,
     paranoid: true,

@@ -81,6 +81,7 @@ Service.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Service',
     tableName: 'services',
     timestamps: true,
     paranoid: true,

@@ -51,13 +51,44 @@ StockDetails.belongsTo(Stock);
 Recipe.hasMany(Service);
 Service.belongsTo(Recipe);
 
-Recipe.belongsToMany(StockDetails, { through: 'recipes_stock_details_products', as: 'StockDetails' });
+Recipe.belongsToMany(StockDetails, { 
+    through: 'recipes_stock_details_products', 
+    as: 'StockDetails',
+    foreignKey: 'recipeId',
+    otherKey: 'stockDetailId'
+});
+StockDetails.belongsToMany(Recipe, { 
+    through: 'recipes_stock_details_products', 
+    as: 'Recipes',
+    foreignKey: 'stockDetailId',
+    otherKey: 'recipeId'
+});
 
-Service.belongsToMany(StockDetails, { through: 'services_stock_details_additional_products', as: 'StockDetails' });
-StockDetails.belongsToMany(Service, { through: 'services_stock_details_additional_products', as: 'Services' });
+Service.belongsToMany(StockDetails, { 
+    through: 'services_stock_details_additional_products', 
+    as: 'StockDetails',
+    foreignKey: 'serviceId',
+    otherKey: 'stockDetailId'
+});
+StockDetails.belongsToMany(Service, { 
+    through: 'services_stock_details_additional_products', 
+    as: 'Services',
+    foreignKey: 'stockDetailId',
+    otherKey: 'serviceId'
+});
 
-Service.belongsToMany(Operator, { through: 'services_operators', as: 'Operators' });
-Operator.belongsToMany(Service, { through: 'services_operators', as: 'Services' });
+Service.belongsToMany(Operator, { 
+    through: 'services_operators', 
+    as: 'Operators',
+    foreignKey: 'serviceId',
+    otherKey: 'operatorId'
+});
+Operator.belongsToMany(Service, { 
+    through: 'services_operators', 
+    as: 'Services',
+    foreignKey: 'operatorId',
+    otherKey: 'serviceId'
+});
 
 Vehicle.hasOne(Service);
 Service.belongsTo(Vehicle);
@@ -68,8 +99,18 @@ Vehicle.belongsTo(Model);
 VehicleBrand.hasMany(Vehicle);
 Vehicle.belongsTo(VehicleBrand);
 
-Client.belongsToMany(Vehicle, { through: 'clients_vehicles', as: 'Vehicles' });
-Vehicle.belongsToMany(Client, { through: 'clients_vehicles', as: 'Clients' });
+Client.belongsToMany(Vehicle, { 
+    through: 'clients_vehicles', 
+    as: 'Vehicles',
+    foreignKey: 'clientId',
+    otherKey: 'vehicleId'
+});
+Vehicle.belongsToMany(Client, { 
+    through: 'clients_vehicles', 
+    as: 'Clients',
+    foreignKey: 'vehicleId',
+    otherKey: 'clientId'
+});
 
 // Finance module
 User.hasMany(Transaction);
@@ -82,7 +123,18 @@ Type.hasMany(Transaction);
 Transaction.belongsTo(Type);
 
 Method.hasMany(Transaction);
-Transaction.belongsToMany(Method, { through: 'transactions_methods', as: 'Methods' });
+Transaction.belongsToMany(Method, { 
+    through: 'transactions_methods', 
+    as: 'Methods',
+    foreignKey: 'transactionId',
+    otherKey: 'methodId'
+});
+Method.belongsToMany(Transaction, { 
+    through: 'transactions_methods', 
+    as: 'Transactions',
+    foreignKey: 'methodId',
+    otherKey: 'transactionId'
+});
 
 export {
     User,

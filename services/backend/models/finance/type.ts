@@ -52,6 +52,7 @@ Type.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Type',
     tableName: 'types',
     timestamps: true,
     paranoid: true,

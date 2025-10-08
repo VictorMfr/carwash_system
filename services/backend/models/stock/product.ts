@@ -51,6 +51,7 @@ Product.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Product',
     tableName: 'products',
     timestamps: true,
     paranoid: true,

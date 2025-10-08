@@ -51,6 +51,7 @@ Brand.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Brand',
     tableName: 'brands',
     timestamps: true,
     paranoid: true,

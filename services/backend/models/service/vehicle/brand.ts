@@ -52,6 +52,7 @@ Brand.init({
     },
 }, {
     sequelize: db,
+    modelName: 'VehicleBrand',
     tableName: 'brands',
     timestamps: true,
     paranoid: true,

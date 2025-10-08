@@ -51,6 +51,7 @@ Model.init({
     },
 }, {
     sequelize: db,
+    modelName: 'VehicleModel',
     tableName: 'models',
     timestamps: true,
     paranoid: true,

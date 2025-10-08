@@ -52,6 +52,7 @@ Recipe.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Recipe',
     tableName: 'recipes',
     timestamps: true,
     paranoid: true,

@@ -95,6 +95,7 @@ Transaction.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Transaction',
     tableName: 'transactions',
     timestamps: true,
     paranoid: true,

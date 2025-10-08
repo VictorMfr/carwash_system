@@ -79,6 +79,7 @@ Vehicle.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Vehicle',
     tableName: 'vehicles',
     timestamps: true,
     paranoid: true,

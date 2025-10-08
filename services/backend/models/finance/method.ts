@@ -52,6 +52,7 @@ Method.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Method',
     tableName: 'methods',
     timestamps: true,
     paranoid: true,

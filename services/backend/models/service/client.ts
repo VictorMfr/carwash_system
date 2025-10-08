@@ -62,6 +62,7 @@ Client.init({
     },
 }, {
     sequelize: db,
+    modelName: 'Client',
     tableName: 'clients',
     timestamps: true,
     paranoid: true,

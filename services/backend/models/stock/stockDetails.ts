@@ -91,6 +91,7 @@ StockDetails.init({
     },
 }, {
     sequelize: db,
+    modelName: 'StockDetails',
     tableName: 'stock_details',
     timestamps: true,
     paranoid: true,

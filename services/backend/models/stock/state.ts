@@ -51,6 +51,7 @@ State.init({
     },
 }, {
     sequelize: db,
+    modelName: 'State',
     tableName: 'states',
     timestamps: true,
     paranoid: true,

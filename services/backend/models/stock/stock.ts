@@ -73,6 +73,7 @@ Stock.init({
     }
 }, {
     sequelize: db,
+    modelName: 'Stock',
     tableName: 'stocks',
     timestamps: true,
     createdAt: 'created_at',
