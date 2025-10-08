@@ -42,12 +42,12 @@ export async function POST(request: Request) {
 export async function GET() {
     try {
         const users = await User.findAll({
-            include: {
+            include: [{
                 model: Role,
                 through: {
                     attributes: []
                 }
-            },
+            }],
             where: {
                 id: {
                     [Op.ne]: 1
