@@ -18,6 +18,7 @@ export default function useFetchUsers(context?: UserContextType) {
         }
 
         setLoadingUsers(false);
+        context?.setLoadingUsers(false);
     }
 
     useEffect(() => {
