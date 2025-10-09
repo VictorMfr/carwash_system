@@ -1,4 +1,4 @@
-import { Role, User } from "@/services/backend/models/associations";
+import { User } from "@/services/backend/models/associations";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
@@ -49,7 +49,19 @@ export async function GET() {
             }],
             where: { id: { [Op.ne]: 1 } },
         });
-        return NextResponse.json(users);
+
+        if (!users) {
+            return NextResponse.json([]);
+        }
+
+        // Transform dates into dd/mm/yyyy hh:mm AM/PM
+        const transformedUsers = users.map(user => ({
+            ...user.toJSON(),
+            created_at: user.created_at?.toLocaleDateString('es-ES') + ' ' + user.created_at?.toLocaleTimeString('es-ES', { hour12: true }),
+            updated_at: user.updated_at?.toLocaleDateString('es-ES') + ' ' + user.updated_at?.toLocaleTimeString('es-ES', { hour12: true })
+        }));
+        
+        return NextResponse.json(transformedUsers);
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error: 'Error getting users' }, { status: 500 });

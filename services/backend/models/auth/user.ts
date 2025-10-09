@@ -39,6 +39,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare email: string;
     declare password: string;
     declare active: CreationOptional<boolean>;
+    declare created_at: CreationOptional<Date>;
+    declare updated_at: CreationOptional<Date>;
 
     // Many-to-many relationship with Role
     declare Roles: NonAttribute<Role[]>;
@@ -111,7 +113,17 @@ User.init({
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-    }
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
 }, {
     sequelize: db,
     tableName: 'users',

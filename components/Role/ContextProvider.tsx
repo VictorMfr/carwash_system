@@ -22,7 +22,7 @@ export interface RoleContextType {
 export const RoleContext = createContext<RoleContextType>({
     roles: [],
     setRoles: () => { },
-    loadingRoles: false,
+    loadingRoles: true,
     setLoadingRoles: () => { },
     modal: {
         open: false,

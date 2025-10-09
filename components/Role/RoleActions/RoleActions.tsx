@@ -8,19 +8,12 @@ import useRoleActions from "./useRoleActionsController";
 export default function RoleActions({ params, context }: { params: GridRenderCellParams, context: any }) {
 
     const controller = useRoleActions(context, params);
-    
+
     return (
-        <>
-            <Tooltip title="Edit">
-                <IconButton size="small" onClick={controller.updateHandler}>
-                    <EditIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-                <IconButton size="small" onClick={controller.deleteHandler}>
-                    <DeleteIcon />
-                </IconButton>
-            </Tooltip>
-        </>
+        <Tooltip title="Edit">
+            <IconButton size="small" onClick={controller.updateHandler}>
+                <EditIcon />
+            </IconButton>
+        </Tooltip>
     )
 }

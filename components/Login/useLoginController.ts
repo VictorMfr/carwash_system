@@ -47,7 +47,7 @@ export default function useLoginController() {
 
             setFormData({ ...formData, loading: true });
             await api.post('/api/auth/login', { email: formData.email.value, password: formData.password.value });
-            router.push('/');
+            return router.replace('/dashboard');
 
         } catch (error) {
             console.log(error);

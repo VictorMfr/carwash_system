@@ -20,20 +20,6 @@ export default function CustomToolBar() {
             <GridToolbarDensitySelector />
             <GridToolbarDivider />
             <GridToolbarQuickFilter />
-
-            <Tooltip title="Add Role">
-                <IconButton onClick={controller.handleAddRole}>
-                    <GridAddIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete Roles">
-                <IconButton
-                    disabled={roleContext.rowSelected.ids.size === 0}
-                    onClick={controller.confirmDeletion}
-                >
-                    <GridDeleteIcon />
-                </IconButton>
-            </Tooltip>
         </GridToolbarContainer>
     )
 }

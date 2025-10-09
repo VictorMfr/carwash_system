@@ -41,12 +41,9 @@ export default function RolePage() {
             </Stack>
 
             <DataGrid
-                loading={controller.loadingRoles}
+                loading={roleContext.loadingRoles}
                 rows={roleContext.roles}
                 columns={columns}
-                slots={{
-                    toolbar: CustomToolBar,
-                }}
                 showToolbar
                 checkboxSelection
                 rowSelection={true}

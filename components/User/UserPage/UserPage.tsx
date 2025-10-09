@@ -15,13 +15,13 @@ export default function UserPage() {
     useUserController(usersContext);
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name' },
-        { field: 'lastname', headerName: 'Last Name' },
-        { field: 'phone', headerName: 'Phone' },
-        { field: 'address', headerName: 'Address' },
-        { field: 'email', headerName: 'Email' },
-        { field: 'created_at', headerName: 'Created At' },
-        { field: 'updated_at', headerName: 'Updated At' },
+        { field: 'name', headerName: 'Nombre' },
+        { field: 'lastname', headerName: 'Apellido' },
+        { field: 'phone', headerName: 'Teléfono' },
+        { field: 'address', headerName: 'Dirección' },
+        { field: 'email', headerName: 'Correo' },
+        { field: 'created_at', headerName: 'Creación' },
+        { field: 'updated_at', headerName: 'Actualización' },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -38,9 +38,9 @@ export default function UserPage() {
     return (
         <Stack spacing={4}>
             <Stack>
-                <Typography variant="h4">Users</Typography>
+                <Typography variant="h4">Usuarios</Typography>
                 <Typography variant="body1">
-                    Manage your users here.
+                    Administra los usuarios que podrán acceder al sistema.
                 </Typography>
             </Stack>
 

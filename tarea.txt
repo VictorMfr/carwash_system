@@ -1,12 +1,34 @@
 1. AUTENTICACION
 
+08/10/2025
 ---------------------------------------------------
 1.1. Iniciar sesion / listo
 1.1.1. Campos incorrectos / listo
 1.1.2. No se encuentra en BD / listo
+
+Produccion: No esta devolviendo a dashboard / verificar
 ---------------------------------------------------
 1.2. Cerrar sesion / listo
 ---------------------------------------------------
-1.3. Recuperar contraseña
+1.3. Recuperar contraseña / verificar
+1.3.1. Correo no valido
+1.3.2. Codigo invalido
+---------------------------------------------------
+
+
+
+2. USUARIOS
+---------------------------------------------------
+2.1. Crear usuario
+2.1.1. Campos faltantes
+2.1.2. Usuario ya existente
+---------------------------------------------------
+2.2. Visualizar usuario
+2.3. Actualizar usuario
+2.4. Listar usuario
+2.5. Borrar usuario
+2.6. Modificar rol usuario
+
+
 
 
