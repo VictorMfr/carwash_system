@@ -45,7 +45,7 @@ export default function OperatorPage() {
             </Stack>
 
             <DataGrid
-                loading={controller.loadingOperators}
+                loading={operatorContext.loadingOperators}
                 rows={operatorContext.operators}
                 columns={columns}
                 slots={{

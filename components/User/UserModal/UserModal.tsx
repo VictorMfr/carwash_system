@@ -16,71 +16,83 @@ export default function UserModal() {
                 fullWidth
                 maxWidth="sm"
             >
-                <DialogTitle>{usersContext.modal.type === 'add' ? 'Add User' : 'Update User'}</DialogTitle>
+                <DialogTitle>{usersContext.modal.type === 'add' ? 'Agregar usuario' : 'Actualizar usuario'}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>{usersContext.modal.type === 'add' ? 'Add a new user to the system' : 'Update the user information'}</DialogContentText>
+                    <DialogContentText>{usersContext.modal.type === 'add' ? 'Agregar un nuevo usuario al sistema' : 'Actualizar la información del usuario'}</DialogContentText>
                     <Grid container rowSpacing={0} columnSpacing={2} >
                         <Grid size={6}>
                             <TextField
                                 required
                                 margin="dense"
-                                label="Name"
+                                label="Nombre"
                                 fullWidth
-                                value={controller.formData.name}
-                                onChange={(e) => controller.setFormData({ ...controller.formData, name: e.target.value })}
+                                value={controller.formData.name.value}
+                                onChange={(e) => controller.setName(e.target.value)}
+                                error={!!controller.formData.name.error}
+                                helperText={controller.formData.name.error}
                             />
                         </Grid>
                         <Grid size={6}>
                             <TextField
                                 required
                                 margin="dense"
-                                label="Last Name"
+                                label="Apellido"
                                 fullWidth
-                                value={controller.formData.lastname}
-                                onChange={(e) => controller.setFormData({ ...controller.formData, lastname: e.target.value })}
+                                value={controller.formData.lastname.value}
+                                onChange={(e) => controller.setLastname(e.target.value)}
+                                error={!!controller.formData.lastname.error}
+                                helperText={controller.formData.lastname.error}
                             />
                         </Grid>
                         <Grid size={6}>
                             <TextField
                                 required
                                 margin="dense"
-                                label="Phone"
+                                label="Teléfono"
                                 fullWidth
-                                value={controller.formData.phone}
-                                onChange={(e) => controller.setFormData({ ...controller.formData, phone: e.target.value })}
+                                value={controller.formData.phone.value}
+                                onChange={(e) => controller.setPhone(e.target.value)}
                                 type="tel"
+                                error={!!controller.formData.phone.error}
+                                helperText={controller.formData.phone.error}
                             />
                         </Grid>
                         <Grid size={6}>
                             <TextField
                                 required
                                 margin="dense"
-                                label="Address"
+                                label="Dirección"
                                 fullWidth
-                                value={controller.formData.address}
-                                onChange={(e) => controller.setFormData({ ...controller.formData, address: e.target.value })}
+                                value={controller.formData.address.value}
+                                onChange={(e) => controller.setAddress(e.target.value)}
+                                error={!!controller.formData.address.error}
+                                helperText={controller.formData.address.error}
                             />
                         </Grid>
                         <Grid size={6}>
                             <TextField
                                 required
                                 margin="dense"
-                                label="Email"
+                                label="Correo"
                                 fullWidth
-                                value={controller.formData.email}
-                                onChange={(e) => controller.setFormData({ ...controller.formData, email: e.target.value })}
+                                value={controller.formData.email.value}
+                                onChange={(e) => controller.setEmail(e.target.value)}
                                 type="email"
+                                error={!!controller.formData.email.error}
+                                helperText={controller.formData.email.error}
                             />
                         </Grid>
                         {usersContext.modal.type === 'add' && <Grid size={6}>
                             <TextField
                                 required
                                 margin="dense"
-                                label="Password"
+                                label="Contraseña"
                                 fullWidth
-                                value={controller.formData.password}
-                                onChange={(e) => controller.setFormData({ ...controller.formData, password: e.target.value })}
+                                value={controller.formData.password.value}
+                                onChange={(e) => controller.setPassword(e.target.value)}
                                 type="password"
+                                error={!!controller.formData.password.error}
+                                helperText={controller.formData.password.error}
                             />
                         </Grid>}
                     </Grid>
@@ -89,10 +101,10 @@ export default function UserModal() {
                             disabled={controller.loading}
                             onClick={controller.handleClose}
                         >
-                            Cancel
+                            Cancelar
                         </Button>
                         <Button loading={controller.loading} onClick={controller.handleSubmit}>
-                            {usersContext.modal.type === 'add' ? 'Add' : 'Update'}
+                            {usersContext.modal.type === 'add' ? 'Agregar' : 'Actualizar'}
                         </Button>
                     </DialogActions>
                 </DialogContent>
@@ -105,7 +117,7 @@ export default function UserModal() {
                 fullWidth
                 maxWidth="sm"
             >
-                <DialogTitle>Assign Role</DialogTitle>
+                <DialogTitle>Asignar Rol</DialogTitle>
                 <DialogContent>
                     <List >
                         {usersContext.loadingModal ? (
@@ -130,8 +142,8 @@ export default function UserModal() {
                     </List>
                 </DialogContent>
                 <DialogActions>
-                    <Button disabled={controller.loading} onClick={controller.handleClose}>Cancel</Button>
-                    <Button loading={controller.loading} onClick={controller.handleUpdateUserRoles}>Assign</Button>
+                    <Button disabled={controller.loading} onClick={controller.handleClose}>Cancelar</Button>
+                    <Button loading={controller.loading} onClick={controller.handleUpdateUserRoles}>Asignar</Button>
                 </DialogActions>
             </Dialog>
         </>

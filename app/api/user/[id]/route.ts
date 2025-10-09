@@ -1,5 +1,7 @@
 import { User } from "@/services/backend/models/associations";
 import { NextResponse } from "next/server";
+import { handleServerError } from "@/lib/error";
+import { UserUpdateSchema } from "@/lib/definitions";
 
 // Get user by id
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -8,8 +10,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         const user = await User.findByPk(id);
         return NextResponse.json(user);
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Error getting user' }, { status: 500 });
+        return handleServerError(error);
     }
 }
 
@@ -17,7 +18,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await params;
-        const { name, lastname, phone, address, email, password } = await request.json();
+        const body = await request.json();
+        const { name, lastname, phone, address, email, password } = UserUpdateSchema.parse(body);
 
         const user = await User.findByPk(id);
 
@@ -28,8 +30,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         await user.update({ name, lastname, phone, address, email, password });
         return NextResponse.json(user);
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Error updating user' }, { status: 500 });
+        return handleServerError(error);
     }
 }
 
@@ -44,7 +45,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
         await user.destroy();
         return NextResponse.json(user);
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Error deleting user' }, { status: 500 });
+        return handleServerError(error);
     }
 }

@@ -59,6 +59,7 @@ export default function UserPage() {
                 onRowSelectionModelChange={(newSelectionModel) => {
                     usersContext.setRowSelected(newSelectionModel);
                 }}
+                
             />
 
             <UserModal/>

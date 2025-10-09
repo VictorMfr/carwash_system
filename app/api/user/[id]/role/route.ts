@@ -1,5 +1,7 @@
 import { User } from "@/services/backend/models/associations";
 import { NextResponse } from "next/server";
+import { AssignRolesSchema } from "@/lib/definitions";
+import { handleServerError } from "@/lib/error";
 
 // Get user roles
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -14,8 +16,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         console.log(roles);
         return NextResponse.json(roles);
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Error getting user roles' }, { status: 500 });
+        return handleServerError(error);
     }
 }
 
@@ -23,7 +24,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await params;
-        const { roles } = await request.json();
+        const body = await request.json();
+        const { roles } = AssignRolesSchema.parse(body);
         const user = await User.findByPk(id);
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -31,7 +33,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         await user.setRoles(roles);
         return NextResponse.json(user);
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Error updating user roles' }, { status: 500 });
+        return handleServerError(error);
     }
 }

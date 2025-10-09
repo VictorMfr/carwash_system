@@ -237,7 +237,7 @@ export default function NavBar() {
                     </Link>
 
                     {/* Vehicle Models */}
-                    <Link href="/dashboard/service/model">
+                    <Link href="/dashboard/service/vehicle/model">
                         <ListItemButton sx={{ pl: 4, borderRadius: '5px' }}>
                             <ListItemIcon>
                                 <ModelTraining />
@@ -247,7 +247,7 @@ export default function NavBar() {
                     </Link>
 
                     {/* Vehicle Brands */}
-                    <Link href="/dashboard/service/vehicle-brand">
+                    <Link href="/dashboard/service/vehicle/brand">
                         <ListItemButton sx={{ pl: 4, borderRadius: '5px' }}>
                             <ListItemIcon>
                                 <BusinessCenter />

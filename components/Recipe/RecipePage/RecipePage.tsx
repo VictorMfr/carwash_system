@@ -41,7 +41,7 @@ export default function RecipePage() {
             </Stack>
 
             <DataGrid
-                loading={controller.loadingRecipes}
+                loading={recipeContext.loadingRecipes}
                 rows={recipeContext.recipes}
                 columns={columns}
                 slots={{
