@@ -30,7 +30,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
-        await user.setRoles(roles);
+        await user.setRoles(roles.map(role => Number(role)));
         return NextResponse.json(user);
     } catch (error) {
         return handleServerError(error);
