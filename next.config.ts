@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/docs',
+        destination: '/docs/index.html',
+      },
+    ];
+  },
 };
 
 nextConfig.serverExternalPackages = ['sequelize'];

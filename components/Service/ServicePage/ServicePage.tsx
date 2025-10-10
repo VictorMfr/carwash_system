@@ -19,7 +19,7 @@ export default function ServicePage() {
     const columns: GridColDef[] = [
         { 
             field: 'date', 
-            headerName: 'Date',
+            headerName: 'Fecha',
             width: 150,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -31,18 +31,28 @@ export default function ServicePage() {
             }
         },
         { 
-            field: 'recipeName', 
-            headerName: 'Recipe',
-            width: 200
-        },
-        { 
             field: 'vehicleLicensePlate', 
             headerName: 'Vehicle',
             width: 200
         },
         { 
+            field: 'client', 
+            headerName: 'Cliente',
+            width: 200
+        },
+        { 
+            field: 'recipeName', 
+            headerName: 'Receta',
+            width: 200
+        },
+        {
+            field: 'extras',
+            headerName: 'Extras',
+            width: 200
+        },
+        { 
             field: 'operators', 
-            headerName: 'Operators',
+            headerName: 'Operadores',
             width: 250,
             renderCell: (params) => (
                 <Stack direction="row" spacing={1} flexWrap="wrap">
@@ -52,14 +62,33 @@ export default function ServicePage() {
                             label={`${operator.name} ${operator.lastname}`} 
                             size="small" 
                         />
-                    )) || <Typography variant="body2">No operators</Typography>}
+                    )) || <Typography variant="body2">No hay operadores</Typography>}
                 </Stack>
             )
         },
-
+        {
+            field: 'dol_charge',
+            headerName: 'Cobro dólares',
+            width: 200
+        },
+        {
+            field: 'bol_charge',
+            headerName: 'Cobro bolívares',
+            width: 200
+        },
+        {
+            field: 'dolar_rate',
+            headerName: 'Tasa de cambio',
+            width: 200
+        },
+        {
+            field: 'status',
+            headerName: 'Estado',
+            width: 200
+        },
         { 
             field: 'created_at', 
-            headerName: 'Created At', 
+            headerName: 'Creado', 
             width: 150,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -72,7 +101,7 @@ export default function ServicePage() {
         },
         { 
             field: 'updated_at', 
-            headerName: 'Updated At', 
+            headerName: 'Actualizado', 
             width: 150,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -85,7 +114,7 @@ export default function ServicePage() {
         },
         {
             field: 'actions',
-            headerName: 'Actions',
+            headerName: 'Acciones',
             width: 150,
             renderCell: (params) => (
                 <ServiceActions

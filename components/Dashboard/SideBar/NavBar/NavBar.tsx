@@ -1,17 +1,17 @@
 'use client';
 
-import { List, ListItemButton, ListItemIcon, ListItemText, Collapse } from "@mui/material";
-import { 
-    AttachMoney, 
-    BarChart, 
-    Build, 
-    Home, 
-    Inventory, 
-    People, 
-    ProductionQuantityLimits, 
-    ExpandLess, 
-    ExpandMore, 
-    AccountBalance, 
+import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Divider } from "@mui/material";
+import {
+    AttachMoney,
+    BarChart,
+    Build,
+    Home,
+    Inventory,
+    People,
+    ProductionQuantityLimits,
+    ExpandLess,
+    ExpandMore,
+    AccountBalance,
     Payment,
     DirectionsCar,
     Engineering,
@@ -38,7 +38,9 @@ import {
     LocalCarWash,
     BuildOutlined,
     CategoryOutlined,
-    BusinessOutlined
+    BusinessOutlined,
+    Settings,
+    Notifications
 } from "@mui/icons-material";
 import NavBarHeader from "./NavBarHeader";
 import Link from "next/link";
@@ -256,18 +258,40 @@ export default function NavBar() {
                         </ListItemButton>
                     </Link>
                 </List>
+                {/* Clients */}
+                <Link href="/dashboard/client">
+                    <ListItemButton sx={{ borderRadius: '5px' }}>
+                        <ListItemIcon>
+                            <Group />
+                        </ListItemIcon>
+                        <ListItemText primary="Clients" />
+                    </ListItemButton>
+                </Link>
             </Collapse>
 
+        <Divider />
 
-            {/* Clients */}
-            <Link href="/dashboard/client">
-                <ListItemButton sx={{ borderRadius: '5px' }}>
-                    <ListItemIcon>
-                        <Group />
-                    </ListItemIcon>
-                    <ListItemText primary="Clients" />
-                </ListItemButton>
-            </Link>
+        {/* Settings */}
+        <Link href="/dashboard/settings">
+            <ListItemButton sx={{ borderRadius: '5px' }}>
+                <ListItemIcon>
+                    <Settings />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+            </ListItemButton>
+        </Link>
+
+        {/* Notifications */}
+        <Link href="/dashboard/notification">
+            <ListItemButton sx={{ borderRadius: '5px' }}>
+                <ListItemIcon>
+                    <Notifications />
+                </ListItemIcon>
+                <ListItemText primary="Notifications" />
+            </ListItemButton>
+        </Link>
+
+
         </List>
     )
 }

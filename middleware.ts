@@ -38,5 +38,6 @@ export const config = {
     '/login',
     '/',
   ],
+  runtime: 'nodejs',
 }
 

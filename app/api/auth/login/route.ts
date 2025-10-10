@@ -6,7 +6,6 @@ import bcrypt from "bcryptjs";
 export async function POST(request: NextRequest) {
     try {
         const { email, password } = await request.json();
-        console.log(email, password);
 
         if (!email || !password) {
             throw new Error("Email and password are required");
