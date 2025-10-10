@@ -37,7 +37,6 @@ export const config = {
     '/dashboard/:path*',
     '/login',
     '/',
-  ],
-  runtime: 'nodejs',
+  ]
 }
 
