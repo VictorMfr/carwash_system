@@ -7,14 +7,14 @@ import {
     InferCreationAttributes, 
     CreationOptional, 
     NonAttribute,
-    BelongsToManyGetAssociationsMixin,
-    BelongsToManyAddAssociationMixin,
-    BelongsToManyHasAssociationMixin,
-    BelongsToManyCountAssociationsMixin,
-    BelongsToManyCreateAssociationMixin,
-    BelongsToManySetAssociationsMixin,
-    BelongsToManyRemoveAssociationMixin,
-    BelongsToManyRemoveAssociationsMixin
+    HasManyGetAssociationsMixin,
+    HasManyAddAssociationMixin,
+    HasManyHasAssociationMixin,
+    HasManyCountAssociationsMixin,
+    HasManyCreateAssociationMixin,
+    HasManySetAssociationsMixin,
+    HasManyRemoveAssociationMixin,
+    HasManyRemoveAssociationsMixin
 } from 'sequelize';
 import db from '../../db';
 import Vehicle from './vehicle/vehicle';
@@ -25,18 +25,18 @@ class Client extends Model<InferAttributes<Client>, InferCreationAttributes<Clie
     declare lastname: string;
     declare phone: string;
 
-    // Many-to-many relationship with Vehicle
+    // Has many Vehicles (1:N)
     declare Vehicles: NonAttribute<Vehicle[]>;
-    declare getVehicles: BelongsToManyGetAssociationsMixin<Vehicle>;
-    declare countVehicles: BelongsToManyCountAssociationsMixin;
-    declare hasVehicle: BelongsToManyHasAssociationMixin<Vehicle, number>;
-    declare hasVehicles: BelongsToManyHasAssociationMixin<Vehicle, number>;
-    declare setVehicles: BelongsToManySetAssociationsMixin<Vehicle, number>;
-    declare addVehicle: BelongsToManyAddAssociationMixin<Vehicle, number>;
-    declare addVehicles: BelongsToManyAddAssociationMixin<Vehicle, number>;
-    declare removeVehicle: BelongsToManyRemoveAssociationMixin<Vehicle, number>;
-    declare removeVehicles: BelongsToManyRemoveAssociationsMixin<Vehicle, number>;
-    declare createVehicle: BelongsToManyCreateAssociationMixin<Vehicle>;
+    declare getVehicles: HasManyGetAssociationsMixin<Vehicle>;
+    declare countVehicles: HasManyCountAssociationsMixin;
+    declare hasVehicle: HasManyHasAssociationMixin<Vehicle, number>;
+    declare hasVehicles: HasManyHasAssociationMixin<Vehicle, number>;
+    declare setVehicles: HasManySetAssociationsMixin<Vehicle, number>;
+    declare addVehicle: HasManyAddAssociationMixin<Vehicle, number>;
+    declare addVehicles: HasManyAddAssociationMixin<Vehicle, number>;
+    declare removeVehicle: HasManyRemoveAssociationMixin<Vehicle, number>;
+    declare removeVehicles: HasManyRemoveAssociationsMixin<Vehicle, number>;
+    declare createVehicle: HasManyCreateAssociationMixin<Vehicle>;
 }
 
 export type ClientCreationAttributes = InferCreationAttributes<Client>;

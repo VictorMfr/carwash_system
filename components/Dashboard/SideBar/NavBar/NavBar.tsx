@@ -59,7 +59,7 @@ export default function NavBar() {
                     <ListItemIcon>
                         <Home />
                     </ListItemIcon>
-                    <ListItemText primary="Home" />
+                    <ListItemText primary="Inicio" />
                 </ListItemButton>
             </Link>
 
@@ -69,7 +69,7 @@ export default function NavBar() {
                     <ListItemIcon>
                         <People />
                     </ListItemIcon>
-                    <ListItemText primary="Users" />
+                    <ListItemText primary="Usuarios" />
                 </ListItemButton>
             </Link>
 
@@ -88,7 +88,7 @@ export default function NavBar() {
                 <ListItemIcon>
                     <Inventory />
                 </ListItemIcon>
-                <ListItemText primary="Inventory" />
+                <ListItemText primary="Inventario" />
                 {controller.inventoryOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={controller.inventoryOpen} timeout="auto" unmountOnExit>
@@ -99,7 +99,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <Inventory />
                             </ListItemIcon>
-                            <ListItemText primary="Inventory" />
+                            <ListItemText primary="Inventario" />
                         </ListItemButton>
                     </Link>
 
@@ -109,7 +109,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <ProductionQuantityLimits />
                             </ListItemIcon>
-                            <ListItemText primary="Products" />
+                            <ListItemText primary="Productos" />
                         </ListItemButton>
                     </Link>
 
@@ -119,7 +119,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <Business />
                             </ListItemIcon>
-                            <ListItemText primary="Brands" />
+                            <ListItemText primary="Marcas" />
                         </ListItemButton>
                     </Link>
 
@@ -129,7 +129,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <Assessment />
                             </ListItemIcon>
-                            <ListItemText primary="States" />
+                            <ListItemText primary="Estados" />
                         </ListItemButton>
                     </Link>
                 </List>
@@ -141,7 +141,7 @@ export default function NavBar() {
                 <ListItemIcon>
                     <AttachMoney />
                 </ListItemIcon>
-                <ListItemText primary="Finance" />
+                <ListItemText primary="Finanzas" />
                 {controller.financeOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={controller.financeOpen} timeout="auto" unmountOnExit>
@@ -152,7 +152,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <AttachMoney />
                             </ListItemIcon>
-                            <ListItemText primary="Dashboard" />
+                            <ListItemText primary="Transacciones" />
                         </ListItemButton>
                     </Link>
 
@@ -162,7 +162,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <AccountBalance />
                             </ListItemIcon>
-                            <ListItemText primary="Accounts" />
+                            <ListItemText primary="Cuentas" />
                         </ListItemButton>
                     </Link>
 
@@ -172,7 +172,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <Payment />
                             </ListItemIcon>
-                            <ListItemText primary="Payment Methods" />
+                            <ListItemText primary="Métodos de pago" />
                         </ListItemButton>
                     </Link>
 
@@ -182,7 +182,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <Category />
                             </ListItemIcon>
-                            <ListItemText primary="Transactions Types" />
+                            <ListItemText primary="Tipos de transacciones" />
                         </ListItemButton>
                     </Link>
                 </List>
@@ -193,7 +193,7 @@ export default function NavBar() {
                 <ListItemIcon>
                     <LocalCarWash />
                 </ListItemIcon>
-                <ListItemText primary="Services" />
+                <ListItemText primary="Servicios" />
                 {controller.servicesOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={controller.servicesOpen} timeout="auto" unmountOnExit>
@@ -204,7 +204,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <LocalCarWash />
                             </ListItemIcon>
-                            <ListItemText primary="Dashboard" />
+                            <ListItemText primary="Operaciones" />
                         </ListItemButton>
                     </Link>
 
@@ -214,7 +214,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <Engineering />
                             </ListItemIcon>
-                            <ListItemText primary="Operators" />
+                            <ListItemText primary="Operadores" />
                         </ListItemButton>
                     </Link>
 
@@ -224,7 +224,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <MenuBook />
                             </ListItemIcon>
-                            <ListItemText primary="Recipes" />
+                            <ListItemText primary="Recetas" />
                         </ListItemButton>
                     </Link>
 
@@ -234,7 +234,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <DirectionsCar />
                             </ListItemIcon>
-                            <ListItemText primary="Vehicles" />
+                            <ListItemText primary="Vehículos" />
                         </ListItemButton>
                     </Link>
 
@@ -244,7 +244,7 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <ModelTraining />
                             </ListItemIcon>
-                            <ListItemText primary="Models" />
+                            <ListItemText primary="Modelos" />
                         </ListItemButton>
                     </Link>
 
@@ -254,17 +254,17 @@ export default function NavBar() {
                             <ListItemIcon>
                                 <BusinessCenter />
                             </ListItemIcon>
-                            <ListItemText primary="Vehicle Brands" />
+                            <ListItemText primary="Marcas de vehículos" />
                         </ListItemButton>
                     </Link>
                 </List>
                 {/* Clients */}
                 <Link href="/dashboard/client">
-                    <ListItemButton sx={{ borderRadius: '5px' }}>
+                    <ListItemButton sx={{ pl: 4, borderRadius: '5px' }}>
                         <ListItemIcon>
                             <Group />
                         </ListItemIcon>
-                        <ListItemText primary="Clients" />
+                        <ListItemText primary="Clientes" />
                     </ListItemButton>
                 </Link>
             </Collapse>
@@ -277,7 +277,7 @@ export default function NavBar() {
                 <ListItemIcon>
                     <Settings />
                 </ListItemIcon>
-                <ListItemText primary="Settings" />
+                <ListItemText primary="Configuración" />
             </ListItemButton>
         </Link>
 
@@ -287,7 +287,7 @@ export default function NavBar() {
                 <ListItemIcon>
                     <Notifications />
                 </ListItemIcon>
-                <ListItemText primary="Notifications" />
+                <ListItemText primary="Notificaciones" />
             </ListItemButton>
         </Link>
 

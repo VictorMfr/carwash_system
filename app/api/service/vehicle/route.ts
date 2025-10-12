@@ -1,4 +1,4 @@
-import { Vehicle } from "@/services/backend/models/associations";
+import { Vehicle, VehicleBrand, VehicleModel } from "@/services/backend/models/associations";
 import { NextResponse } from "next/server";
 
 // Create vehicle
@@ -27,7 +27,12 @@ export async function POST(request: Request) {
 // Get vehicles
 export async function GET() {
     try {
-        const vehicles = await Vehicle.findAll();
+        const vehicles = await Vehicle.findAll({
+            include: [
+                { model: VehicleModel, as: 'Model' },
+                { model: VehicleBrand, as: 'Brand' }
+            ]
+        });
         return NextResponse.json(vehicles);
     } catch (error) {
         console.log(error);

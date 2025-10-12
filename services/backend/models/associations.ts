@@ -7,6 +7,7 @@ import StockDetails from './stock/stockDetails';
 import StockBrand from './stock/brand';
 import State from './stock/state';
 import Recipe from './service/recipe';
+import RecipeProduct from './service/recipeProduct';
 import Service from './service/service';
 import Operator from './service/operator';
 import Vehicle from './service/vehicle/vehicle';
@@ -99,18 +100,8 @@ Vehicle.belongsTo(Model, { as: 'Model', foreignKey: 'modelId' });
 VehicleBrand.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'brandId' });
 Vehicle.belongsTo(VehicleBrand, { as: 'Brand', foreignKey: 'brandId' });
 
-Client.belongsToMany(Vehicle, { 
-    through: 'clients_vehicles', 
-    as: 'Vehicles',
-    foreignKey: 'clientId',
-    otherKey: 'vehicleId'
-});
-Vehicle.belongsToMany(Client, { 
-    through: 'clients_vehicles', 
-    as: 'Clients',
-    foreignKey: 'vehicleId',
-    otherKey: 'clientId'
-});
+Client.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'clientId' });
+Vehicle.belongsTo(Client, { as: 'Client', foreignKey: 'clientId' });
 
 // Finance module
 User.hasMany(Transaction);
@@ -134,6 +125,20 @@ Method.belongsToMany(Transaction, {
     as: 'MethodTransactions',
     foreignKey: 'methodId',
     otherKey: 'transactionId'
+});
+
+// Recipe <-> Product (many-to-many) via recipes_products
+Recipe.belongsToMany(Product, { 
+    through: RecipeProduct,
+    as: 'Products',
+    foreignKey: 'recipeId',
+    otherKey: 'productId'
+});
+Product.belongsToMany(Recipe, { 
+    through: RecipeProduct,
+    as: 'ProductRecipes',
+    foreignKey: 'productId',
+    otherKey: 'recipeId'
 });
 
 export {

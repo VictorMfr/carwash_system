@@ -16,7 +16,6 @@ import {
     FormControl,
     DialogActions,
     Button,
-    IconButton
 } from "@mui/material";
 
 import { units } from "@/components/Product/ProductModal/ProductModal";

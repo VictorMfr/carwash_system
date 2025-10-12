@@ -12,15 +12,7 @@ import {
     HasOneCreateAssociationMixin,
     BelongsToGetAssociationMixin,
     BelongsToSetAssociationMixin,
-    BelongsToCreateAssociationMixin,
-    BelongsToManyGetAssociationsMixin,
-    BelongsToManyAddAssociationMixin,
-    BelongsToManyHasAssociationMixin,
-    BelongsToManyCountAssociationsMixin,
-    BelongsToManyCreateAssociationMixin,
-    BelongsToManySetAssociationsMixin,
-    BelongsToManyRemoveAssociationMixin,
-    BelongsToManyRemoveAssociationsMixin
+    BelongsToCreateAssociationMixin
 } from 'sequelize';
 import db from '../../../db';
 import Service from '../service';
@@ -33,6 +25,7 @@ class Vehicle extends SequelizeModel<InferAttributes<Vehicle>, InferCreationAttr
     declare license_plate: string;
     declare brandId: CreationOptional<number>;
     declare modelId: CreationOptional<number>;
+    declare clientId: CreationOptional<number>;
 
     // Has one Service
     declare Service: NonAttribute<Service>;
@@ -52,18 +45,11 @@ class Vehicle extends SequelizeModel<InferAttributes<Vehicle>, InferCreationAttr
     declare setBrand: BelongsToSetAssociationMixin<Brand, number>;
     declare createBrand: BelongsToCreateAssociationMixin<Brand>;
 
-    // Many-to-many relationship with Client
-    declare Clients: NonAttribute<Client[]>;
-    declare getClients: BelongsToManyGetAssociationsMixin<Client>;
-    declare countClients: BelongsToManyCountAssociationsMixin;
-    declare hasClient: BelongsToManyHasAssociationMixin<Client, number>;
-    declare hasClients: BelongsToManyHasAssociationMixin<Client, number>;
-    declare setClients: BelongsToManySetAssociationsMixin<Client, number>;
-    declare addClient: BelongsToManyAddAssociationMixin<Client, number>;
-    declare addClients: BelongsToManyAddAssociationMixin<Client, number>;
-    declare removeClient: BelongsToManyRemoveAssociationMixin<Client, number>;
-    declare removeClients: BelongsToManyRemoveAssociationsMixin<Client, number>;
-    declare createClient: BelongsToManyCreateAssociationMixin<Client>;
+    // Belongs to Client (1:N)
+    declare Client: NonAttribute<Client>;
+    declare getClient: BelongsToGetAssociationMixin<Client>;
+    declare setClient: BelongsToSetAssociationMixin<Client, number>;
+    declare createClient: BelongsToCreateAssociationMixin<Client>;
 }
 
 export type VehicleCreationAttributes = InferCreationAttributes<Vehicle>;
@@ -84,6 +70,10 @@ Vehicle.init({
         allowNull: true,
     },
     modelId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    clientId: {
         type: DataTypes.INTEGER,
         allowNull: true,
     },

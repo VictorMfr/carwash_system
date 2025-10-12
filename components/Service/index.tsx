@@ -7,7 +7,7 @@ import ServicePage from "./ServicePage/ServicePage";
 const ServiceIndex = () => {
     return (
         <ServiceProvider>
-            <ServicePage/>
+            <ServicePage />
         </ServiceProvider>
     )
 }
