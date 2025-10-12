@@ -2,7 +2,6 @@
 
 import { Fragment, HTMLAttributes, useEffect } from "react";
 import useClientFieldController from "./useClientFieldController";
-import { Client } from "@/services/backend/models/associations";
 import {
     Autocomplete,
     AutocompleteRenderInputParams,
@@ -16,7 +15,11 @@ import {
     Button,
 } from "@mui/material";
 
-export interface ClientFieldType extends Client {
+export interface ClientFieldType {
+    id: number;
+    name: string;
+    lastname: string;
+    phone: string;
     inputValue?: string;
 }
 
@@ -110,7 +113,7 @@ export default function ClientField({ onChange }: { onChange: (data: any) => voi
                         Cancel
                     </Button>
                     <Button
-                        loading={controller.loading}
+                        disabled={controller.loading}
                         onClick={controller.handleSubmit}
                     >
                         Add
