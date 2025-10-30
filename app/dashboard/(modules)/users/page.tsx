@@ -1,6 +1,6 @@
-import UserIndex from "@/components/User";
+import UsersPage from "@/components/User/UsersPage";
 
 // Server side component
 export default function UsersPageServer () {
-    return <UserIndex/>;
+    return <UsersPage />;
 }

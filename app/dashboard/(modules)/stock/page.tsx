@@ -1,6 +1,6 @@
-import StockIndex from "@/components/Stock";
+import StockPage from "@/components/Stock/StockPage";
 
 // Server side component
-export default function StockPageServer() {
-    return <StockIndex/>;
+export default async function StockPageServer() {
+    return <StockPage/>;
 }

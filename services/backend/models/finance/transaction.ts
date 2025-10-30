@@ -20,7 +20,6 @@ import {
 } from 'sequelize';
 import db from '../../db';
 import Account from './account';
-import Type from './type';
 import Method from './method';
 import User from '../auth/user';
 
@@ -29,8 +28,7 @@ class Transaction extends Model<InferAttributes<Transaction>, InferCreationAttri
     declare date: Date;
     declare amount: number;
     declare description: string;
-    declare dolar_rate: number;
-    declare name: string;
+    declare dollar_rate: number;
 
     // Belongs to Account
     declare Account: NonAttribute<Account>;
@@ -38,24 +36,11 @@ class Transaction extends Model<InferAttributes<Transaction>, InferCreationAttri
     declare setAccount: BelongsToSetAssociationMixin<Account, number>;
     declare createAccount: BelongsToCreateAssociationMixin<Account>;
 
-    // Belongs to Type
-    declare Type: NonAttribute<Type>;
-    declare getType: BelongsToGetAssociationMixin<Type>;
-    declare setType: BelongsToSetAssociationMixin<Type, number>;
-    declare createType: BelongsToCreateAssociationMixin<Type>;
-
-    // Belongs to many Method
-    declare Methods: NonAttribute<Method[]>;
-    declare getMethods: BelongsToManyGetAssociationsMixin<Method>;
-    declare countMethods: BelongsToManyCountAssociationsMixin;
-    declare hasMethod: BelongsToManyHasAssociationMixin<Method, number>;
-    declare hasMethods: BelongsToManyHasAssociationMixin<Method, number>;
-    declare setMethods: BelongsToManySetAssociationsMixin<Method, number>;
-    declare addMethod: BelongsToManyAddAssociationMixin<Method, number>;
-    declare addMethods: BelongsToManyAddAssociationMixin<Method, number>;
-    declare removeMethod: BelongsToManyRemoveAssociationMixin<Method, number>;
-    declare removeMethods: BelongsToManyRemoveAssociationsMixin<Method, number>;
-    declare createMethod: BelongsToManyCreateAssociationMixin<Method>;
+    // Belongs to Method
+    declare Method: NonAttribute<Method>;
+    declare getMethod: BelongsToGetAssociationMixin<Method>;
+    declare setMethod: BelongsToSetAssociationMixin<Method, number>;
+    declare createMethod: BelongsToCreateAssociationMixin<Method>;
 
     // Belongs to User
     declare User: NonAttribute<User>;
@@ -85,12 +70,8 @@ Transaction.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-    dolar_rate: {
+    dollar_rate: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    name: {
-        type: DataTypes.STRING,
         allowNull: false,
     },
 }, {

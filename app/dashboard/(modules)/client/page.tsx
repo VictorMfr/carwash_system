@@ -1,6 +1,6 @@
-import ClientIndex from "@/components/Client";
+import ClientsPage from "@/components/Client/ClientsPage";
 
 // Server side component
 export default function ClientPageServer() {
-    return <ClientIndex/>;
+    return <ClientsPage/>;
 }

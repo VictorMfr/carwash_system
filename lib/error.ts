@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { NextResponse } from "next/server";
+import { SequelizeScopeError } from "sequelize";
 
 // handle api error
 export const handleApiError = (error: unknown, uiContext: any) => {
@@ -35,8 +36,7 @@ export const handleServerError = (error: unknown) => {
 
     // Check if it's a error
     if (error instanceof Error) {
-        console.log(error.message);
-        return NextResponse.json({ error: error.message || functionCalledWithoutError }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Check if it's a unknown error

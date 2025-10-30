@@ -14,6 +14,7 @@ import ClientField from './Client/ClientField';
 import { FormControlLabel, Grid, Switch, TextField } from '@mui/material';
 import VehicleField from './Vehicle/VehicleField';
 import { DatePicker } from '@mui/x-date-pickers';
+import VehicleSelect from './VehicleSelect/VehicleSelect';
 
 
 const steps = [
@@ -51,7 +52,7 @@ function ClientStep() {
                 </FormControlLabel>
             </Grid>
             <Grid size={12}>
-                <VehicleField onChange={() => { }} />
+                <VehicleSelect />
             </Grid>
             <Grid size={6}>
                 <ClientField onChange={() => { }} />

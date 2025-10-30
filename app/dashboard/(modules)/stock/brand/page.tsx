@@ -1,7 +1,7 @@
-import BrandIndex from "@/components/Brand";
+import BrandPage from "@/components/Brand/BrandPage";
 
 // Server side component
 export default function BrandPageServer() {
-    return <BrandIndex/>;
+    return <BrandPage/>;
 }
 

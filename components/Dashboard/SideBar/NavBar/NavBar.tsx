@@ -175,16 +175,6 @@ export default function NavBar() {
                             <ListItemText primary="Métodos de pago" />
                         </ListItemButton>
                     </Link>
-
-                    {/* Transactions Types */}
-                    <Link href="/dashboard/finance/type">
-                        <ListItemButton sx={{ pl: 4, borderRadius: '5px' }}>
-                            <ListItemIcon>
-                                <Category />
-                            </ListItemIcon>
-                            <ListItemText primary="Tipos de transacciones" />
-                        </ListItemButton>
-                    </Link>
                 </List>
             </Collapse>
 

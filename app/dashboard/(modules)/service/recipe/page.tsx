@@ -1,6 +1,6 @@
-import RecipeIndex from "@/components/Recipe";
+import RecipesPage from "@/components/Recipe/RecipesPage";
 
 // Server side component
 export default function RecipePageServer() {
-    return <RecipeIndex/>;
+    return <RecipesPage/>;
 }

@@ -6,13 +6,28 @@ interface AlertAction {
     onClick: (setLoading: Dispatch<SetStateAction<boolean>>) => void;
 }
 
-const UIDisplayControlsContext = createContext<{
+export type TypeAlertPayload = { 
+    open: boolean; 
+    title: string; 
+    message: string; 
+    severity: AlertColor; 
+    actions: AlertAction[]; 
+}
+
+export type TypeSetAlert = Dispatch<SetStateAction<TypeAlertPayload>>
+export type SnackbarPayload = {
+    open: boolean;
+    message: string;
+    severity: AlertColor;
+}
+
+export interface UIDisplayControlsContextType {
     snackbar: {
         open: boolean;
         message: string;
         severity: AlertColor;
     };
-    setSnackbar: Dispatch<SetStateAction<{ open: boolean; message: string; severity: AlertColor; }>>;
+    setSnackbar: Dispatch<SetStateAction<SnackbarPayload>>;
     alert: {
         open: boolean;
         title: string;
@@ -20,18 +35,14 @@ const UIDisplayControlsContext = createContext<{
         severity: AlertColor;
         actions: AlertAction[];
     };
-    setAlert: Dispatch<SetStateAction<{ 
-        open: boolean; 
-        title: string; 
-        message: string; 
-        severity: AlertColor; 
-        actions: AlertAction[]; 
-    }>>;
+    setAlert: TypeSetAlert;
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
     screenLoading: boolean;
     setScreenLoading: Dispatch<SetStateAction<boolean>>;
-}>({
+}
+
+const UIDisplayControlsContext = createContext<UIDisplayControlsContextType>({
     snackbar: {
         open: false,
         message: '',

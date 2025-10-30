@@ -1,6 +1,6 @@
-import ServiceIndex from "@/components/Service";
+import ServicePage from "@/components/Service/ServicePage";
 
 // Server side component
 export default function ServicePageServer() {
-    return <ServiceIndex/>;
+    return <ServicePage/>;
 }

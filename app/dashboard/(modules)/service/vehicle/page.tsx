@@ -1,7 +1,7 @@
-import VehicleIndex from "@/components/Vehicle";
+import VehiclesPage from "@/components/Vehicle/VehiclesPage";
 
 // Server side component
 export default function VehiclePageServer() {
-    return <VehicleIndex/>;
+    return <VehiclesPage/>;
 }
 

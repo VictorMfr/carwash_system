@@ -1,7 +1,7 @@
-import OperatorIndex from "@/components/Operator";
+import OperatorsPage from "@/components/Operator/OperatorsPage";
 
 // Server side component
 export default function OperatorPageServer() {
-    return <OperatorIndex/>;
+    return <OperatorsPage/>;
 }
 

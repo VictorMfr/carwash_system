@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Product, State, Stock, StockDetails, Brand } from "@/services/backend/models/associations";
+import { Dayjs } from "dayjs";
 
 // List all stockDetails for tool products with their related Product, Brand, and State
 export async function GET() {
@@ -40,34 +41,19 @@ export async function GET() {
         const records = stockDetails.map((stockDetail: any) => {
             const json = stockDetail.toJSON();
             return {
-                StockDetails: {
-                    id: json.id,
-                    quantity: json.quantity,
-                    price: json.price,
-                    entry_date: json.entry_date,
-                    picture: json.picture
-                },
-                Stock: {
-                    id: json.Stock?.id,
-                },
-                Product: {
-                    id: json.Stock.Product.id,
-                    name: json.Stock.Product.name,
-                    description: json.Stock.Product.description,
-                    isTool: json.Stock.Product.isTool
-                },
-                Brand: {
-                    id: json.Brand?.id || null,
-                    name: json.Brand?.name || 'Sin marca'
-                },
-                State: {
-                    id: json.State?.id || null,
-                    name: json.State?.name || 'Sin estado'
-                }
+                id: json.id,
+                picture: json.picture,
+                name: json.Stock?.Product?.name ?? 'Sin nombre',
+                brand: json.Brand?.name || 'Sin marca',
+                state: json.State?.name || 'Sin estado',
+                stateId: json.State?.id,
+                brandId: json.Brand?.id,
+                stockId: json.Stock?.id,
+                price: json.price,
+                entry_date: new Date(json.entry_date).toLocaleDateString('es-ES'),
             };
         });
 
-        console.log(records);
 
         return NextResponse.json(records);
     } catch (error) {

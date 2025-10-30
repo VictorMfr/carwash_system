@@ -1,6 +1,6 @@
-import ProductIndex from "@/components/Product";
+import ProductsPage from "@/components/Product/ProductsPage";
 
 // Server side component
 export default function ProductPageServer() {
-    return <ProductIndex/>;
+    return <ProductsPage/>;
 }

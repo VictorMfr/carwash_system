@@ -3,19 +3,20 @@ import Transaction from "@/services/backend/models/finance/transaction";
 import { Op, Sequelize } from "sequelize";
 
 // GET /api/finance/statistics
-// Returns monthly series for incomes, costs, and dollar rate averages
+// Returns monthly series formatted as arrays of objects compatible with charts
 export async function GET() {
     try {
-        // Group by month (YYYY-MM) using sequelize date_trunc equivalent for sqlite/postgres
-        // Using SQLite/others fallback via strftime; adjust for your dialect if needed
-        // We'll try a generic approach with Sequelize.fn and fallback to JS if necessary
 
-        // Sum amounts by month for incomes (Type.name='income') and costs (Type.name='cost') if Type association exists.
-        // As a simpler baseline without joins, we classify by sign: amount > 0 => income, amount < 0 => cost.
+        /*
+        statistics:
+        - incomes by month (Line Chart)
+        - costs by month (Line Chart)
+        - dollar rate averages by month (Line Chart)
+        */
 
         const sequelize = (Transaction as any).sequelize as Sequelize;
 
-        // Helper to format YYYY-MM
+
         const monthExpr = sequelize.getDialect() === 'sqlite'
             ? sequelize.literal("strftime('%Y-%m', date)")
             : sequelize.getDialect() === 'postgres'
@@ -47,13 +48,17 @@ export async function GET() {
         }
 
         const months = Object.keys(byMonth).sort();
-        const incomes = months.map(m => byMonth[m].income);
-        const costs = months.map(m => byMonth[m].cost);
-        const dollar = months.map(m => byMonth[m].dolarAvgCount
-            ? byMonth[m].dolarAvgSum / byMonth[m].dolarAvgCount
-            : 0);
 
-        return NextResponse.json({ months, incomes, costs, dollar });
+        const incomeData = months.map(month => ({ month, income: byMonth[month].income }));
+        const costData = months.map(month => ({ month, cost: byMonth[month].cost }));
+        const dollarData = months.map(month => ({
+            month,
+            dollar: byMonth[month].dolarAvgCount
+                ? byMonth[month].dolarAvgSum / byMonth[month].dolarAvgCount
+                : 0
+        }));
+
+        return NextResponse.json({ incomeData, costData, dollarData });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: 'Error computing finance statistics' }, { status: 500 });

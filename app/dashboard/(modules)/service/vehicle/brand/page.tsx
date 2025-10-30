@@ -1,6 +1,6 @@
-import VehicleBrandIndex from "@/components/VehicleBrand";
+import VehicleBrandsPage from "@/components/VehicleBrand/VehicleBrandsPage";
 
 // Server side component
 export default function VehicleBrandPageServer() {
-    return <VehicleBrandIndex/>;
+    return <VehicleBrandsPage/>;
 }

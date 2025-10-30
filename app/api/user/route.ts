@@ -2,14 +2,14 @@ import { User } from "@/services/backend/models/associations";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
-import { UserCreateSchema } from "@/lib/definitions";
+import { UserObjectCreateSchema } from "@/lib/definitions";
 import { handleServerError } from "@/lib/error";
 
 // Create user
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name, lastname, phone, address, email, password } = UserCreateSchema.parse(body);
+        const { name, lastname, phone, address, email, password } = UserObjectCreateSchema.parse(body);
 
         const isUserInDB = await User.findOne({
             where: { email },
@@ -61,5 +61,17 @@ export async function GET() {
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error: 'Error getting users' }, { status: 500 });
+    }
+}
+
+// Delete bulk users
+export async function DELETE(request: Request) {
+    try {
+        const body = await request.json();
+        const { ids } = body;
+        await User.destroy({ where: { id: { [Op.in]: ids } } });
+        return NextResponse.json({ message: 'Users deleted successfully' });
+    } catch (error) {
+        return handleServerError(error);
     }
 }

@@ -5,13 +5,15 @@ import { NextResponse } from "next/server";
 // Create stock
 export async function POST(request: Request) {
     try {
-        const { ProductId, minimum_quantity } = await request.json();
+        const data = await request.json();
+        console.log(data);  
 
-        if (!ProductId || !minimum_quantity) {
-            return NextResponse.json({ error: 'ProductId and minimum_quantity are required' }, { status: 400 });
+        const product = data.product;
+        const minimum_quantity = Number(data.minimum_quantity);
+        
+        if (!product || !minimum_quantity) {
+            return NextResponse.json({ error: 'Product and minimum_quantity are required' }, { status: 400 });
         }
-
-        const product = await Product.findByPk(ProductId);
 
         if (!product) {
             return NextResponse.json({ error: 'Product not found' }, { status: 400 });
@@ -35,20 +37,32 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'User not found' }, { status: 400 });
         }
 
+        // Prevent associating a product that already has an inventory
+        const existing = await Stock.findOne({
+            include: [{ model: Product, as: 'Product', where: { id: product.id } }]
+        });
+        if (existing) {
+            return NextResponse.json({ error: 'Este inventario ya existe' }, { status: 400 });
+        }
+
         const stock = await Stock.create({
             total_quantity: 0,
             minimum_quantity
         });
 
-        await stock.setProduct(product);
-        await stock.setUser(user);
+
+
+        await stock.setProduct(product.id);
+        await stock.setUser(user.id);
 
         // Return the stock with the product and user
         const formatted = {
             ...stock.toJSON(),
-            name: product.name,
+            product: product.name,
             unit: product.unit,
         };
+
+        console.log(formatted);
 
         return NextResponse.json(formatted);
 
@@ -73,24 +87,19 @@ export async function GET() {
             }]
         });
 
-        console.log(stocks)
-
         const formatted = stocks.map((s: Stock) => {
             const json: any = s.toJSON();
 
             return {
                 ...json,
-                name: json.Product.name,
+                product: json.Product.name,
                 unit: json.Product.unit,
                 total_quantity: json.StockDetails.reduce((acc: number, curr: StockDetails) => acc + curr.quantity, 0),
             }
         });
 
-        console.log(formatted)
-
         return NextResponse.json(formatted);
     } catch (error) {
-        console.log(error);
         return NextResponse.json({ error: 'Error getting stocks' }, { status: 500 });
     }
 }

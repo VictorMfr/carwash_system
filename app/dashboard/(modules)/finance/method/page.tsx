@@ -1,7 +1,7 @@
-import MethodIndex from "@/components/Method";
+import MethodsPage from "@/components/Method/MethodsPage";
 
 // Server side component
 export default function MethodPageServer() {
-    return <MethodIndex/>;
+    return <MethodsPage/>;
 }
 

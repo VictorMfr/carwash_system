@@ -36,7 +36,7 @@ export default function UIControls() {
                     <DialogActions>
                         {uiContext.alert.actions.map((action) => (
                             <div key={action.label}>
-                                {action.label === 'Cancel' ? <Button disabled={uiContext.loading} key={action.label} onClick={action.onClick.bind(null, uiContext.setLoading)}>
+                                {(action.label === 'Cancel' || action.label === 'Cancelar') ? <Button disabled={uiContext.loading} key={action.label} onClick={action.onClick.bind(null, uiContext.setLoading)}>
                                     {action.label}
                                 </Button> : <Button loading={uiContext.loading} key={action.label} onClick={action.onClick.bind(null, uiContext.setLoading)}>
                                     {action.label}

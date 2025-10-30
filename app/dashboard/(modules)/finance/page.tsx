@@ -1,6 +1,6 @@
-import FinanceIndex from "@/components/Finance";
+import FinancePage from "@/components/Finance/FinancePage";
 
 // Server side component
 export default function FinancePageServer() {
-    return <FinanceIndex/>;
+    return <FinancePage/>;
 }

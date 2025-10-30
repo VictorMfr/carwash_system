@@ -1,9 +1,15 @@
-import { CardContent, Card, Grid, Typography, CardHeader, Stack, CardActionArea, Link } from "@mui/material";
+"use client";
+
+import { CardContent, Card, Grid, Typography, CardHeader, Stack, CardActionArea, Link, LinearProgress, Skeleton } from "@mui/material";
 import BoltIcon from '@mui/icons-material/Bolt';
 import BuildIcon from '@mui/icons-material/Build';
 import { ProductionQuantityLimits, AttachMoney, BarChart, AccessTime } from "@mui/icons-material";
+import DashboardPageController from "./DashboardPageController";
 
 export default function DashboardPage() {
+
+    const controller = DashboardPageController();
+
     return (
         <Grid container spacing={2}>
 
@@ -14,6 +20,24 @@ export default function DashboardPage() {
                 </Stack>
             </Grid>
 
+            {controller.dbMeta && (
+                <Grid size={12}>
+                    <Typography variant="body1">Almacenamiento disponible</Typography>
+                    <LinearProgress
+                        variant="determinate"
+                        value={(controller.dbMeta[0].tamaño_mb / 500) * 100}
+                    />
+                    <Stack direction="row" spacing={2} justifyContent="space-between">
+                        <Typography variant="body2">{controller.dbMeta[0].tamaño_mb} MB</Typography>
+                        <Typography variant="body2">500 MB</Typography>
+                    </Stack>
+                </Grid>
+            ) || (
+                    <Grid size={12}>
+                        <Skeleton variant="rectangular" height={48.2} width={'100%'} />
+                    </Grid>
+                )}
+
 
             {/* Acciones rapidas */}
             <Grid size={12}>
@@ -23,7 +47,7 @@ export default function DashboardPage() {
                 </Stack>
             </Grid>
             {/* Nuevo servicio */}
-            <Grid size={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
                 <Card variant="outlined">
                     <CardActionArea component={Link} href="/dashboard/service/form">
                         <CardContent>
@@ -39,7 +63,7 @@ export default function DashboardPage() {
                 </Card>
             </Grid>
             {/* Nuevo producto */}
-            <Grid size={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
                 <Card variant="outlined">
                     <CardActionArea component={Link} href="/dashboard/stock/form">
                         <CardContent>
@@ -55,7 +79,7 @@ export default function DashboardPage() {
                 </Card>
             </Grid>
             {/* Nueva transaccion */}
-            <Grid size={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
                 <Card variant="outlined">
                     <CardActionArea component={Link} href="/dashboard/transaction/form">
                         <CardContent>
@@ -72,7 +96,7 @@ export default function DashboardPage() {
             </Grid>
 
             {/* Ver reportes */}
-            <Grid size={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
                 <Card variant="outlined">
                     <CardActionArea component={Link} href="/dashboard/reports">
                         <CardContent>
@@ -87,6 +111,8 @@ export default function DashboardPage() {
                     </CardActionArea>
                 </Card>
             </Grid>
+
+            
         </Grid>
     );
 }

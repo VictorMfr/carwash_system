@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  turbopack: {
+    resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.mdx'],
+  },
   rewrites: async () => {
     return [
       {

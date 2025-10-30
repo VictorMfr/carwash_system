@@ -1,6 +1,7 @@
 import { handleServerError } from "@/lib/error";
 import { storeAndGetPicturePath } from "@/lib/pictures";
 import { Brand, State, Stock, StockDetails } from "@/services/backend/models/associations";
+import dayjs from "dayjs";
 import { NextRequest, NextResponse } from "next/server";
 
 // Get all stock details
@@ -24,13 +25,16 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         if (!stock) {
             return NextResponse.json({ error: 'Stock not found' }, { status: 404 });
         }
-        
+
+
         let records: any[] = [];
 
         stock.StockDetails.forEach((stockDetail) => {
-            console.log(stockDetail)
+            // transform the entry_date to DD-MM-YYYY
+            const entryDate = dayjs(stockDetail.entry_date).format('DD-MM-YYYY');
             records.push({
                 ...stockDetail.toJSON(),
+                entry_date: entryDate,
                 brand: stockDetail.Brand.name,
                 state: stockDetail.State.name
             });
@@ -39,6 +43,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         // get states
         return NextResponse.json(records);
     } catch (error) {
+        console.log(error);
         return handleServerError(error);
     }
 }
@@ -54,8 +59,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         const price = form.get('price');
         const picture = form.get('picture');
         const entry_date = form.get('entry_date');
-        const brandId = form.get('brandId');
-        const stateId = form.get('stateId');
+        const brand = form.get('brand');
+        const state = form.get('state');
+
+        console.log("VALORES RECIBIDOS", quantity, price, picture, entry_date, brand, state);
 
         // Store the picture in the uploads folder
         const picturePath = await storeAndGetPicturePath(picture, 'stockDetails');
@@ -66,18 +73,34 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ error: 'Stock not found' }, { status: 404 });
         }
 
+        const [day, month, year] = (entry_date as string).split('-');
+        const entryDate = new Date(Number(year), Number(month) - 1, Number(day));
+
+        
+
         // create stock detail
         const detail = await stock.createStockDetail({ 
             quantity: Number(quantity), 
             price: Number(price), 
-            entry_date: new Date(entry_date as string), 
+            entry_date: entryDate,
             picture: picturePath
         });
 
-        await detail.setBrand(Number(brandId));
-        await detail.setState(Number(stateId));
 
-        return NextResponse.json(detail);
+        
+        const brandDetail = JSON.parse(brand as string);
+        const stateDetail = JSON.parse(state as string);
+
+        await detail.setBrand(brandDetail?.id);
+        await detail.setState(stateDetail?.id);
+
+        const response = {
+            ...detail.toJSON(),
+            brand: brandDetail?.name,
+            state: stateDetail?.name
+        }
+
+        return NextResponse.json(response);
     } catch (error) {
         return handleServerError(error);
     }

@@ -1,7 +1,7 @@
-import AccountIndex from "@/components/Account";
+import AccountsPage from "@/components/Account/AccountsPage";
 
 // Server side component
 export default function AccountPageServer() {
-    return <AccountIndex/>;
+    return <AccountsPage/>;
 }
 

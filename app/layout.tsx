@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import './globals.css';
+import { Head } from 'next/document';
 
 // Inter font
 const inter = Inter({ subsets: ['latin'] })
@@ -10,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 // Metadata
 export const viewport: Viewport = {
   width: 'device-width',
-  initialScale: 1,
+  initialScale: 0.9,
 };
 
 export default async function RootLayoutServer({

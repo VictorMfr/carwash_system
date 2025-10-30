@@ -4,6 +4,14 @@ import { StockDetails, Brand, Stock, Product, State } from "@/services/backend/m
 export async function GET() {
     try {
 
+        /*
+        statistics:
+        - products by brand (Pie Chart)
+        - products by state (Pie Chart)
+        - entry by month (Line Chart)
+        - cost by month (Line Chart)
+        */
+
         // ordered by entry_date
         const stockDetails = await StockDetails.findAll({
             include: [
@@ -36,7 +44,7 @@ export async function GET() {
             return NextResponse.json({ error: "Stock details not found" }, { status: 404 });
         }
 
-        // Products by brand
+        // Products by brand (Pie Chart)
         let productsByBrand = [];
         let productsByBrandMap: any = {};
 
@@ -53,17 +61,17 @@ export async function GET() {
             label: brand,
         }));
 
-        // Products by state
+        // Products by state (Pie Chart)
         let productsByState = [];
         let productsByStateMap: any = {};
-        
+
         stockDetails.forEach(details => {
             if (!productsByStateMap[details.State.name]) {
                 productsByStateMap[details.State.name] = 0;
             }
             productsByStateMap[details.State.name]++;
         })
-        
+
         productsByState = Object.entries(productsByStateMap).map(([state, count], idx) => ({
             id: idx,
             value: count,
@@ -71,7 +79,7 @@ export async function GET() {
         }));
 
 
-        // Costs aggregated by month for line chart
+        // Costs aggregated by month for line chart (Line Chart)
         const monthlyCostMap: Record<string, number> = {};
         stockDetails.forEach(details => {
             const date = new Date(details.entry_date);
@@ -86,7 +94,20 @@ export async function GET() {
 
         const consumptionData: any[] = [];
 
-        return NextResponse.json({ productsByBrand, productsByState, consumptionData, costData });
+        // Entry by month (Line Chart)
+        const entryByMonthMap: Record<string, number> = {};
+        stockDetails.forEach(details => {
+            const date = new Date(details.entry_date);
+            const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            entryByMonthMap[month] = (entryByMonthMap[month] || 0) + 1;
+        });
+        
+        const entryData = Object.keys(entryByMonthMap)
+            .sort()
+            .map(month => ({ month, entry: entryByMonthMap[month] }))
+            .slice(-6); // last 6 months
+
+        return NextResponse.json({ productsByBrand, productsByState, consumptionData, costData, entryData });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: "Error getting stock statistics" }, { status: 500 });

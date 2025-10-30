@@ -16,7 +16,6 @@ import Model from './service/vehicle/model';
 import Client from './service/client';
 import Account from './finance/account';
 import Transaction from './finance/transaction';
-import Type from './finance/type';
 import Method from './finance/method';
 
 // services/backend/models/associations.ts
@@ -104,28 +103,14 @@ Client.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'clientId' });
 Vehicle.belongsTo(Client, { as: 'Client', foreignKey: 'clientId' });
 
 // Finance module
-User.hasMany(Transaction);
-Transaction.belongsTo(User);
+User.hasMany(Transaction, { as: 'Transactions', foreignKey: 'userId' });
+Transaction.belongsTo(User, { as: 'User', foreignKey: 'userId' });
 
-Account.hasMany(Transaction, { as: 'Transactions' });
-Transaction.belongsTo(Account);
+Account.hasMany(Transaction, { as: 'Transactions', foreignKey: 'accountId' });
+Transaction.belongsTo(Account, { as: 'Account', foreignKey: 'accountId' });
 
-Type.hasMany(Transaction);
-Transaction.belongsTo(Type);
-
-Method.hasMany(Transaction);
-Transaction.belongsToMany(Method, { 
-    through: 'transactions_methods', 
-    as: 'Methods',
-    foreignKey: 'transactionId',
-    otherKey: 'methodId'
-});
-Method.belongsToMany(Transaction, { 
-    through: 'transactions_methods', 
-    as: 'MethodTransactions',
-    foreignKey: 'methodId',
-    otherKey: 'transactionId'
-});
+Method.hasMany(Transaction, { as: 'Transactions', foreignKey: 'methodId' });
+Transaction.belongsTo(Method, { as: 'Method', foreignKey: 'methodId' });
 
 // Recipe <-> Product (many-to-many) via recipes_products
 Recipe.belongsToMany(Product, { 
@@ -157,7 +142,6 @@ export {
     Model as VehicleModel,
     Account,
     Method,
-    Type,
     Client,
     Transaction
 };
