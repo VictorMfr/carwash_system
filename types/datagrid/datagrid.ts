@@ -14,7 +14,7 @@ export type ColumnData = FormDataField & {
 		size: number;
 		dataGridHidden?: boolean;
 		hideIfUpdate?: boolean;
-	},
+	} & FormDataInputConfig,
 	flex?: number;
 	width?: number;
 	renderCell?: GridColDef['renderCell'];

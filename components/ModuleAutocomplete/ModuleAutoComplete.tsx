@@ -40,7 +40,7 @@ const ModuleAutocomplete = ({
         return qs ? `${autoCompleteSettings.url}?${qs}` : autoCompleteSettings.url;
     }, [autoCompleteSettings.url, autoCompleteSettings.queryParams]);
 
-    const { data, loading, setData, fetchData } = useFetch(urlWithQuery);
+    const { data, loading, setData } = useFetch(urlWithQuery);
     const [inputLabel, setInputLabel] = useState<string | undefined>(defaultInputValue);
     const [openModal, setOpenModal] = useState({
         open: false,
@@ -51,30 +51,36 @@ const ModuleAutocomplete = ({
         if (autoCompleteSettings.loadingType === 'screen') {
             uiContext.setScreenLoading(loading);
         } else if (typeof autoCompleteSettings.loadingType === 'object') {
-            setInputLabel(autoCompleteSettings.label);
+            if (loading) {
+                setInputLabel(autoCompleteSettings.loadingType.loadingText);
+            } else {
+                setInputLabel(autoCompleteSettings.label);
+            }
         }
     }, [loading]);
 
 
-
     const addModule = async (name: string) => {
         try {
-            console.log('INICIANDO BENDITO PROCESO DE ADDMODULEEEE');
             uiContext.setLoading(true);
-            console.log('Haciendo la peticion a la api');
             const response = await api.post(autoCompleteSettings.url, {
                 [autoCompleteSettings.formData?.createFillField ?? autoCompleteSettings.labelField ?? 'name']: name
             });
 
-            console.log('Respuesta de la api', response.data);
             uiContext.setSnackbar({ open: true, message: autoCompleteSettings.confirm?.successMessage ?? 'Módulo agregado correctamente', severity: 'success' });
             uiContext.setAlert(prev => ({ ...prev, open: false }));
             setOpenModal({ open: false, inputValue: '' });
-            // Ensure the newly created item appears in the list when the list is filtered by query params.
-        
-            setData((prev: any[]) => prev.map(item => item.id === response.data.id ? response.data : item));
+
+            if (autoCompleteSettings.multiple) {
+                setData((prev: any[]) => [...prev, response.data]);
+                onChange([...value, response.data]);
+                return;
+            }
+
+
+            setData((prev: any[]) => [...prev, response.data]);
             onChange(response.data);
-            
+
         } catch (error) {
             handleApiError(error, uiContext);
         } finally {
@@ -97,6 +103,7 @@ const ModuleAutocomplete = ({
     }
 
     const changeHandler = useCallback((event: any, newValue: any) => {
+
         const labelKey = autoCompleteSettings.labelField ?? 'name';
 
         if (typeof newValue === 'string') {
@@ -109,6 +116,17 @@ const ModuleAutocomplete = ({
             if (autoCompleteSettings.formData) setOpenModal({ open: true, inputValue: newValue.inputValue });
             return;
         }
+
+        if (autoCompleteSettings.multiple && Array.isArray(newValue)) {
+            const newItem = newValue.find((item: { inputValue: string }) => item.inputValue);
+            if (newItem) {
+                if (autoCompleteSettings.confirm) createConfirmHandler(newItem.inputValue);
+                if (autoCompleteSettings.formData) setOpenModal({ open: true, inputValue: newItem.inputValue });
+                return;
+            }
+        }
+
+
 
         onChange(newValue ?? '');
     }, [autoCompleteSettings.labelField, onChange, autoCompleteSettings.confirm, autoCompleteSettings.formData]);
@@ -127,17 +145,73 @@ const ModuleAutocomplete = ({
         return filtered;
     }, [autoCompleteSettings.newItemLabel]);
 
-    const getOptionLabelHandler = useCallback((option: any) => {
+    const getOptionLabelHandler = (option: any) => {
+        if (!autoCompleteSettings.labelField) throw new Error('labelField is required');
+
+        if (autoCompleteSettings.multiple) {
+            return option[autoCompleteSettings.labelField ?? 'name'];
+        }
+
         if (typeof option === 'string') {
             return option;
         }
 
         if (option.inputValue) {
-            return option.inputValue;
+            return option.name;
         }
 
-        return option[autoCompleteSettings.labelField ?? 'name'];
-    }, [autoCompleteSettings.labelField]);
+        return option[autoCompleteSettings.labelField];
+    };
+
+    if (autoCompleteSettings.multiple) {
+        return (
+            <Fragment>
+                {autoCompleteSettings.loadingType === 'skeleton' && loading ? (
+                    <Skeleton
+                        variant="rounded"
+                        height={56}
+                        width={'100%'}
+                    />
+                ) : (
+                    <FormControl fullWidth>
+                        <Autocomplete
+                            value={Array.isArray(value) ? value : []}
+                            onChange={changeHandler}
+                            fullWidth
+                            multiple
+                            options={data ?? []}
+                            getOptionLabel={getOptionLabelHandler}
+                            filterOptions={filterOptionsHandler}
+                            filterSelectedOptions
+                            disabled={loading || disabled}
+                            renderInput={(params) => (
+                                <TextField
+                                    error={error}
+                                    {...params}
+                                    label={inputLabel}
+                                />
+                            )}
+                            isOptionEqualToValue={(opt, val) => (opt?.id ?? opt) === (val?.id ?? val)}
+                            freeSolo
+                            selectOnFocus
+                            handleHomeEndKeys
+                            clearOnBlur
+                        />
+                        <FormHelperText error={error}>{helperText}</FormHelperText>
+                    </FormControl>
+                )}
+                <ModuleAutocompleteModal
+                    openModal={openModal}
+                    setOpenModal={setOpenModal}
+                    autoCompleteSettings={autoCompleteSettings}
+                    setValue={(val) => onChange(val)}
+                    setData={(val) => setData(val)}
+                    value={value}
+                    data={data}
+                />
+            </Fragment>
+        )
+    }
 
     return (
         <Fragment>
@@ -149,12 +223,12 @@ const ModuleAutocomplete = ({
                 />
             ) : (
                 <FormControl fullWidth>
-                    
                     <Autocomplete
+
                         fullWidth
                         value={value}
                         onChange={changeHandler}
-                        options={data ?? []}
+                        options={data == '' ? [] : data}
                         renderInput={params => (
                             <TextField
                                 error={error}
@@ -165,13 +239,13 @@ const ModuleAutocomplete = ({
                         filterOptions={filterOptionsHandler}
                         getOptionLabel={getOptionLabelHandler}
                         isOptionEqualToValue={(opt, val) => (opt?.id ?? opt) === (val?.id ?? val)}
-                        renderOption={(props, option) => <li {...props} key={option.id}>{option.name}</li>}
+
                         freeSolo
                         selectOnFocus
                         handleHomeEndKeys
                         clearOnBlur
                         disabled={loading || disabled}
-                        
+
                     />
                     <FormHelperText error={error}>{helperText}</FormHelperText>
                 </FormControl>
@@ -181,9 +255,12 @@ const ModuleAutocomplete = ({
                 setOpenModal={setOpenModal}
                 autoCompleteSettings={autoCompleteSettings}
                 setValue={(val) => onChange(val)}
+                setData={(val) => setData(val)}
+                value={value}
+                data={data}
             />
         </Fragment>
     )
 }
 
-export default withUIDisplayControls(React.memo(ModuleAutocomplete));
+export default withUIDisplayControls(ModuleAutocomplete);

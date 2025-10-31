@@ -68,6 +68,11 @@ export interface AutocompleteModule extends Module {
 	};
 
 	/**
+	 * Activar solo si se requiere seleccionar múltiples items.
+	 */
+	multiple?: boolean;
+
+	/**
 	 * La configuración del autocomplete.
 	 */
 	config?: {

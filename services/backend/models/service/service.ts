@@ -27,6 +27,10 @@ import StockDetails from '../stock/stockDetails';
 class Service extends Model<InferAttributes<Service>, InferCreationAttributes<Service>> {
     declare id: CreationOptional<number>;
     declare date: Date;
+    declare amount: number;
+    declare dollar_rate: number;
+    declare bol_charge: number;
+    declare status: string;
 
     // Belongs to Recipe
     declare Recipe: NonAttribute<Recipe>;
@@ -77,6 +81,22 @@ Service.init({
     },
     date: {
         type: DataTypes.DATE,
+        allowNull: false,
+    },
+    amount: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    dollar_rate: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    bol_charge: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    status: {
+        type: DataTypes.STRING,
         allowNull: false,
     },
 }, {

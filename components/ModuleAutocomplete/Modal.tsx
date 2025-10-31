@@ -14,11 +14,17 @@ export default function ModuleAutocompleteModal({
     setOpenModal,
     autoCompleteSettings,
     setValue,
+    setData,
+    value,
+    data,
 }: {
     openModal: { open: boolean, inputValue: string };
     setOpenModal: (openModal: { open: boolean, inputValue: string }) => void;
     autoCompleteSettings: AutocompleteModule;
     setValue: (value: any) => void;
+    setData: (data: any) => void;
+    value: any;
+    data: any[];
 }) {
 
     const [loading, setLoading] = useState(false);
@@ -62,7 +68,16 @@ export default function ModuleAutocompleteModal({
 
             const labelKey = autoCompleteSettings.formData?.createFillField ?? autoCompleteSettings.labelField ?? 'name';
             
+
+            if (autoCompleteSettings.multiple) {
+                setValue([...value, response.data]);
+                setData((prev: any[]) => [...prev, response.data]);
+                handleClose();
+                return;
+            }
+
             setValue(response.data);
+            setData((prev: any[]) => [...prev, response.data]);
             handleClose();
         } catch (error) {
             handleApiError(error, uiContext);

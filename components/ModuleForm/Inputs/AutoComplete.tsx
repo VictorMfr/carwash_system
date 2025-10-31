@@ -9,10 +9,8 @@ export default function AutoCompleteField({ dataField }: { dataField: FormDataFi
     const { value, error, disabled } = useInputController({ dataField });
 
     const changeHandler = (value: any) => {
-        formCtx.setFormValue(prev => prev.map(input => input.field === dataField.field ? { ...input, value } : input));
+        formCtx.setFormValue(prev => prev.map(input => input.field === dataField.field ? { ...input, value, error: '' } : input));
     }
-
-    
 
     return (
         <AutocompleteModule

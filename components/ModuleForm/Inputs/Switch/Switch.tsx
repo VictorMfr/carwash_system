@@ -92,6 +92,8 @@ export default function SwitchField({ dataField }: { dataField: FormDataField })
 
             return next;
         });
+
+		
     }
 
     return (

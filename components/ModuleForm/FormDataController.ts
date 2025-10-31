@@ -62,7 +62,7 @@ export default function useFormDataController(settings: FormData) {
             const error = errors.find((error: any) => error.field === item.field);
             return {
                 ...item,
-                error: error?.error ?? ''
+                error: error?.error ?? item.error
             }
         }));
     }

@@ -16,9 +16,9 @@ import {
 } from 'sequelize';
 import db from '../../../db';
 import Service from '../service';
-import Brand from './brand';
+import VehicleBrand from './brand';
 import Client from '../client';
-import Model from './model';
+import VehicleModel from './model';
 
 class Vehicle extends SequelizeModel<InferAttributes<Vehicle>, InferCreationAttributes<Vehicle>> {
     declare id: CreationOptional<number>;
@@ -34,16 +34,16 @@ class Vehicle extends SequelizeModel<InferAttributes<Vehicle>, InferCreationAttr
     declare createService: HasOneCreateAssociationMixin<Service>;
 
     // Belongs to Model
-    declare Model: NonAttribute<Model>;
-    declare getModel: BelongsToGetAssociationMixin<Model>;
-    declare setModel: BelongsToSetAssociationMixin<Model, number>;
-    declare createModel: BelongsToCreateAssociationMixin<Model>;
+    declare VehicleModel: NonAttribute<VehicleModel>;
+    declare getVehicleModel: BelongsToGetAssociationMixin<VehicleModel>;
+    declare setVehicleModel: BelongsToSetAssociationMixin<VehicleModel, number>;
+    declare createVehicleModel: BelongsToCreateAssociationMixin<VehicleModel>;
 
     // Belongs to Brand
-    declare Brand: NonAttribute<Brand>;
-    declare getBrand: BelongsToGetAssociationMixin<Brand>;
-    declare setBrand: BelongsToSetAssociationMixin<Brand, number>;
-    declare createBrand: BelongsToCreateAssociationMixin<Brand>;
+    declare VehicleBrand: NonAttribute<VehicleBrand>;
+    declare getVehicleBrand: BelongsToGetAssociationMixin<VehicleBrand>;
+    declare setVehicleBrand: BelongsToSetAssociationMixin<VehicleBrand, number>;
+    declare createVehicleBrand: BelongsToCreateAssociationMixin<VehicleBrand>;
 
     // Belongs to Client (1:N)
     declare Client: NonAttribute<Client>;

@@ -53,8 +53,9 @@ export default function FormField({ dataField }: { dataField: FormDataField }) {
 
 
     if (formInput?.swap) {
-        return <RenderDataField dataField={formInput.swap.value} />
+        const key = `${formInput.swap.value.inputConfig?.id ?? formInput.swap.value.field}-swap`;
+        return <RenderDataField key={key} dataField={formInput.swap.value} />
     }
 
-    return <RenderDataField dataField={dataField} />
+    return <RenderDataField key={`${dataField.inputConfig?.id ?? dataField.field}-base`} dataField={dataField} />
 }

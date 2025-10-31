@@ -19,7 +19,7 @@ import {
 import db from '../../../db';
 import Vehicle from './vehicle';
 
-class Brand extends Model<InferAttributes<Brand>, InferCreationAttributes<Brand>> {
+class VehicleBrand extends Model<InferAttributes<VehicleBrand>, InferCreationAttributes<VehicleBrand>> {
     declare id: CreationOptional<number>;
     declare name: string;
 
@@ -37,10 +37,10 @@ class Brand extends Model<InferAttributes<Brand>, InferCreationAttributes<Brand>
     declare createVehicle: HasManyCreateAssociationMixin<Vehicle>;
 }
 
-export type BrandCreationAttributes = InferCreationAttributes<Brand>;
-export type BrandAttributes = InferAttributes<Brand>;
+export type VehicleBrandCreationAttributes = InferCreationAttributes<VehicleBrand>;
+export type VehicleBrandAttributes = InferAttributes<VehicleBrand>;
 
-Brand.init({
+VehicleBrand.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -53,7 +53,7 @@ Brand.init({
 }, {
     sequelize: db,
     modelName: 'VehicleBrand',
-    tableName: 'brands',
+    tableName: 'vehicle_brands',
     timestamps: true,
     paranoid: true,
     createdAt: 'created_at',
@@ -61,4 +61,4 @@ Brand.init({
     deletedAt: 'deleted_at',
 });
 
-export default Brand;
+export default VehicleBrand;

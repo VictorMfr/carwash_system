@@ -1,49 +1,97 @@
 'use client';
 
-import { ModuleStackCardsData } from "@/types/stackcards/stackcards";
-import ModuleStackCards from "../ModuleStackCards/ModuleStackCards";
-import dayjs from "dayjs";
+import { FormData } from "@/types/form/form";
+import ModuleForm from "../ModuleForm";
+import { Fragment, useEffect, useState } from "react";
+import useFormDataController, { FormInput } from "../ModuleForm/FormDataController";
+import { Button } from "@mui/material";
 
-const SettingsModule: ModuleStackCardsData = {
-    url: 'https://ve.dolarapi.com/v1/dolares',
-    title: 'Configuración',
-    description: 'Aquí puedes configurar tu sistema.',
-    config: {
-        cardWidth: 12,
-        cardHeight: 12,
-    },
+
+const testForm: FormData = {
     data: [
         {
-            id: '1',
-            textCard: {
-                caption: 'Configuración',
-                title: 'Tasas dolares',
-                description: 'Aquí puedes configurar tu sistema.',
-            },
-            size: { xs: 12, md: 4 },
+            field: 'switch',
+            headerName: 'Switch',
+            inputConfig: {
+                id: 'switch',
+                size: 12,
+                switch: {
+                    label: 'Switch',
+                    swapIds: [
+                        {
+                            id: 'name',
+                            value: {
+                                id: 'name',
+                                data: [
+                                    {
+                                        field: 'lastname',
+                                        headerName: 'Apellido',
+                                        inputConfig: {
+                                            id: 'lastname',
+                                            size: 12,
+                                        }
+                                    },
+                                    {
+                                        field: 'email',
+                                        headerName: 'Email',
+                                        inputConfig: {
+                                            id: 'email',
+                                            size: 12,
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+
+            }
         },
         {
-            id: '2',
-            fetchCard: {
-                dataDisplayDirection: 'row',
-                caption: 'Configuración',
-                title: 'Tasas dolares',
-                description: 'Aquí puedes configurar tu sistema.',
-                mapper: (data) => {
-                    return data.map((item: any) => {
-                        return {
-                            [item.nombre]: `${item.promedio}bs`,
-                            Fecha: dayjs(item.fechaActualizacion).format('DD/MM/YYYY'),
-                        }
-                    });
-                },
-            },
-            size: { xs: 12, md: 4 },
+            field: 'name',
+            headerName: 'Nombre',
+            inputConfig: {
+                id: 'name',
+                size: 12,
+                autocomplete: {
+                    url: '/api/stock/brand',
+                    label: 'Marca',
+                    newItemLabel: 'Agregar marca',
+                    loadingType: 'screen',
+                    labelField: 'name',
+                    multiple: true,
+                    confirm: {
+                        title: 'Agregar marca',
+                        message: '¿Estás seguro de querer agregar esta marca?',
+                        successMessage: 'Marca agregada correctamente',
+                    }
+                }
+            }
         }
     ]
-
 }
 
 export default function SettingsPage() {
-    return <ModuleStackCards moduleSettings={SettingsModule} />
+
+    const { initialFormInputs } = useFormDataController(testForm);
+    const [formValue, setFormValue] = useState<FormInput[]>(initialFormInputs);
+
+    // useEffect(() => {
+    //     console.log('formValue', formValue);
+    // }, [formValue]);
+
+    const submitHandler = () => {
+        console.log('formValue', formValue);
+    }
+
+    return (
+        <Fragment>
+            <ModuleForm
+                settings={testForm}
+                formValue={formValue}
+                onChangeFormData={setFormValue}
+            />
+            <Button onClick={submitHandler}>Agregar</Button>
+        </Fragment>
+    )
 }

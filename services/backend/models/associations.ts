@@ -12,11 +12,11 @@ import Service from './service/service';
 import Operator from './service/operator';
 import Vehicle from './service/vehicle/vehicle';
 import VehicleBrand from './service/vehicle/brand';
-import Model from './service/vehicle/model';
 import Client from './service/client';
 import Account from './finance/account';
 import Transaction from './finance/transaction';
 import Method from './finance/method';
+import VehicleModel from './service/vehicle/model';
 
 // services/backend/models/associations.ts
 User.belongsToMany(Role, {
@@ -93,11 +93,11 @@ Operator.belongsToMany(Service, {
 Vehicle.hasOne(Service);
 Service.belongsTo(Vehicle);
 
-Model.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'modelId' });
-Vehicle.belongsTo(Model, { as: 'Model', foreignKey: 'modelId' });
+VehicleModel.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'modelId' });
+Vehicle.belongsTo(VehicleModel, { as: 'VehicleModel', foreignKey: 'modelId' });
 
-VehicleBrand.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'brandId' });
-Vehicle.belongsTo(VehicleBrand, { as: 'Brand', foreignKey: 'brandId' });
+VehicleBrand.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'vehicleBrandId' });
+Vehicle.belongsTo(VehicleBrand, { as: 'VehicleBrand', foreignKey: 'vehicleBrandId' });
 
 Client.hasMany(Vehicle, { as: 'Vehicles', foreignKey: 'clientId' });
 Vehicle.belongsTo(Client, { as: 'Client', foreignKey: 'clientId' });
@@ -139,7 +139,7 @@ export {
     Vehicle,
     Operator,
     VehicleBrand,
-    Model as VehicleModel,
+    VehicleModel,
     Account,
     Method,
     Client,

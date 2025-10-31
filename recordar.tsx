@@ -46,7 +46,7 @@ export default function ServicePage() {
             width: 200
         },
         {
-            field: 'extras', // Productos extras utilizados en la receta
+            field: 'extras',
             headerName: 'Extras',
             width: 200
         },
