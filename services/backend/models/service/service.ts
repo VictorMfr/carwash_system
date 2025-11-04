@@ -27,7 +27,6 @@ import StockDetails from '../stock/stockDetails';
 class Service extends Model<InferAttributes<Service>, InferCreationAttributes<Service>> {
     declare id: CreationOptional<number>;
     declare date: Date;
-    declare amount: number;
     declare dollar_rate: number;
     declare bol_charge: number;
     declare status: string;
@@ -81,10 +80,6 @@ Service.init({
     },
     date: {
         type: DataTypes.DATE,
-        allowNull: false,
-    },
-    amount: {
-        type: DataTypes.FLOAT,
         allowNull: false,
     },
     dollar_rate: {

@@ -7,7 +7,24 @@ import { useUIDisplayControls } from "@/hooks/UIDisplayControlsProvider";
 import { AutocompleteModule } from "../../types/autocomplete/autocomplete";
 import useFormDataController, { FormInput } from "../ModuleForm/FormDataController";
 import { FormData } from "@/types/form/form";
+import { getFormDataPayload, getPayload as getJsonPayload } from "../ModuleDataGrid/Modal/ModalController";
 
+const getPayload = (formValue: FormInput[], autocompleteSettings: AutocompleteModule) => {
+    if (autocompleteSettings.formData?.columns.contentType === 'multipart/form-data') {
+        return getFormDataPayload(formValue);
+    }
+    return getJsonPayload(formValue);
+}
+
+const getHeaders = (autocompleteSettings: AutocompleteModule) => {
+    if (autocompleteSettings.formData?.columns.contentType === 'multipart/form-data') {
+        return {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }
+    }
+}
 
 export default function ModuleAutocompleteModal({
     openModal,
@@ -58,12 +75,10 @@ export default function ModuleAutocompleteModal({
 
 
             setLoading(true);
-            const payload = formValue.reduce((acc, cur) => {
-                acc[cur.field] = cur.value;
-                return acc;
-            }, {} as Record<string, any>);
+            const payload = getPayload(formValue, autoCompleteSettings);
+            const headers = getHeaders(autoCompleteSettings);
 
-            const response = await api.post(autoCompleteSettings.url, payload);
+            const response = await api.post(autoCompleteSettings.url, payload, headers);
             uiContext.setSnackbar({ open: true, message: autoCompleteSettings.confirm?.successMessage ?? 'Agregado correctamente', severity: 'success' });
 
             const labelKey = autoCompleteSettings.formData?.createFillField ?? autoCompleteSettings.labelField ?? 'name';
@@ -100,14 +115,16 @@ export default function ModuleAutocompleteModal({
                     settings={modalSettings}
                     formValue={formValue}
                     onChangeFormData={setFormValue}
+                    onSubmit={handleSubmit}
+                    onCancel={handleClose}
                 />
-                <DialogActions>
+                {!autoCompleteSettings.config?.disableActions && <DialogActions>
                     <Button onClick={handleClose}>Cancelar</Button>
                     <Button
                         onClick={handleSubmit}
                         loading={loading}
                     >Agregar</Button>
-                </DialogActions>
+                </DialogActions>}
             </DialogContent>
         </Dialog>
     )

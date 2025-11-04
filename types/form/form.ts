@@ -37,12 +37,18 @@ export interface FormDataInputConfig {
 		adornment?: React.ComponentType;
 		adornmentPosition?: 'start' | 'end';
 	};
-	date?: {}
+	date?: {};
 	picture?: {
 		title?: string;
 		description?: string;
 		suggestion?: string
-	}
+	};
+	cart?: {
+		optional?: string;
+		autocomplete: FormDataField;
+		number: FormDataField;
+	},
+	custom?: React.ComponentType<{ dataField: FormDataField }>;
 }
 
 export interface FormConfig {
@@ -74,6 +80,7 @@ export interface Stepper {
 
 export interface FormData {
 	config?: FormConfig;
+	contentType?: 'multipart/form-data' | 'application/json' | 'application/x-www-form-urlencoded';
 	stepper?: Stepper;
 	data?: FormDataField[];
 }

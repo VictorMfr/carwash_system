@@ -18,7 +18,7 @@ const ModuleAutocomplete = ({
     error,
     helperText,
     value,
-    disabled
+    disabled,
 }: {
     autoCompleteSettings: AutocompleteModule
     onChange: (value: any) => void;
@@ -148,6 +148,7 @@ const ModuleAutocomplete = ({
     const getOptionLabelHandler = (option: any) => {
         if (!autoCompleteSettings.labelField) throw new Error('labelField is required');
 
+
         if (autoCompleteSettings.multiple) {
             return option[autoCompleteSettings.labelField ?? 'name'];
         }
@@ -158,6 +159,14 @@ const ModuleAutocomplete = ({
 
         if (option.inputValue) {
             return option.name;
+        }
+        
+        if (autoCompleteSettings.getOptionLabel) {
+            return autoCompleteSettings.getOptionLabel(option);
+        }
+        
+        if (Array.isArray(option) && option.length == 0) {
+            return '';
         }
 
         return option[autoCompleteSettings.labelField];
@@ -196,6 +205,14 @@ const ModuleAutocomplete = ({
                             selectOnFocus
                             handleHomeEndKeys
                             clearOnBlur
+                            renderOption={autoCompleteSettings.renderOption ? (props, option) => (
+                                <li
+                                    {...props}
+                                    key={props.key}
+                                >
+                                    {autoCompleteSettings.renderOption?.(option)}
+                                </li>
+                            ) : undefined}
                         />
                         <FormHelperText error={error}>{helperText}</FormHelperText>
                     </FormControl>
@@ -239,7 +256,14 @@ const ModuleAutocomplete = ({
                         filterOptions={filterOptionsHandler}
                         getOptionLabel={getOptionLabelHandler}
                         isOptionEqualToValue={(opt, val) => (opt?.id ?? opt) === (val?.id ?? val)}
-
+                        renderOption={autoCompleteSettings.renderOption ? (props, option) => (
+                            <li
+                                {...props}
+                                key={props.key}
+                            >
+                                {autoCompleteSettings.renderOption?.(option)}
+                            </li>
+                        ) : undefined}
                         freeSolo
                         selectOnFocus
                         handleHomeEndKeys

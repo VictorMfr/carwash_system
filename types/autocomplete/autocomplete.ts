@@ -1,9 +1,19 @@
 
+import { HTMLAttributes } from "react";
 import { FormData } from "../form/form";
 import { Module } from "../module";
 import { ZodSchema } from "zod";
+import { AutocompleteOwnerState, AutocompleteRenderOptionState } from "@mui/material";
 
 export interface AutocompleteModule extends Module {
+	/**
+	 * La función para obtener el label del autocomplete con valores complejos.
+	 */
+	getOptionLabel?: (value: any) => string;
+	/**
+	 * La función para renderizar el option del autocomplete.
+	 */
+	renderOption?: (value: any) => React.ReactNode;
 	/**
 	 * El campo que se buscara por cada item para mostrar el label del autocomplete.
 	*/
@@ -97,5 +107,7 @@ export interface AutocompleteModule extends Module {
 		 * La validación del formulario de creación de un nuevo item.
 		 */
 		validation?: ZodSchema<any>;
+		disableActions?: boolean;
+		contentType?: 'multipart/form-data' | 'application/json' | 'application/x-www-form-urlencoded';
 	};
 }

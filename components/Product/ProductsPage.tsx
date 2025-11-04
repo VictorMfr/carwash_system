@@ -4,7 +4,7 @@ import ModuleDataGrid from "../ModuleDataGrid"
 import { ModuleFormGridData } from "@/types/datagrid/datagrid"
 import { ProductSchema } from "@/lib/definitions";
 
-const ProductModule: ModuleFormGridData = {
+export const ProductModule: ModuleFormGridData = {
     url: '/api/stock/product',
     columns: {
         config: {

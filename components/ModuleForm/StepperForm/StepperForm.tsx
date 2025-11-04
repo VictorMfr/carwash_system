@@ -18,7 +18,7 @@ export default function StepperForm() {
 
 
     return (
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ width: '100%' }}>
             {formCtx.moduleSettings.stepper.steps[controller.activeStep].title && (
                 <Typography variant="h5">{formCtx.moduleSettings.stepper.steps[controller.activeStep].title}</Typography>
             )}
@@ -28,6 +28,7 @@ export default function StepperForm() {
             <Stepper
                 activeStep={controller.activeStep}
                 orientation={formCtx.moduleSettings.stepper.orientation}
+                
             >
                 {formCtx.moduleSettings.stepper.steps.map((step) => (
                     <Step key={step.label}>

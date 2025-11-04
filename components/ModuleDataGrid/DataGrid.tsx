@@ -1,5 +1,4 @@
-import useFetch from "@/hooks/fetch/useFetch";
-import { DataGrid as MuiDataGrid, GridColDef, GridOverlay, GridRenderCellParams, GridRowSelectionModel, GridSlotsComponent } from "@mui/x-data-grid";
+import { DataGrid as MuiDataGrid, GridColDef, GridRenderCellParams, GridRowSelectionModel, GridSlotsComponent } from "@mui/x-data-grid";
 import { Stack, Typography } from "@mui/material";
 import ModuleToolbar from "./Toolbar";
 import ModuleActions from "./Actions";

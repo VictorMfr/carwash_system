@@ -11,7 +11,7 @@ import DetailsLink from "./DetailsLink";
 import { ProductSchema, StockSchema } from "@/lib/definitions";
 import ModuleDataGrid from "../ModuleDataGrid";
 
-const StockModule: ModuleFormGridData = {
+export const StockModule: ModuleFormGridData = {
     url: '/api/stock',
     label: 'Inventario',
     description: 'Aquí puedes ver el inventario de tus productos.',

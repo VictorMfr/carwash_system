@@ -109,6 +109,10 @@ export const MethodObjectSchema = z.object({
 
 // SERVICE SCHEMA
 
+export const RecipeObjectSchema = z.object({
+  name: z.string().min(1, 'El nombre es requerido'),
+});
+
 export const VechileBrandObjectSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido'),
 });
@@ -176,6 +180,10 @@ export const ServiceVehicleObjectSchemaStepTwo = z.object({
 });
 
 export const ServiceVehicleObjectSchemaStepThree = z.object({
+  extras: z.array(z.object(), 'Los extras son requeridos').min(1, 'Los extras son requeridos'),
+});
+
+export const ServiceVehicleObjectSchemaStepFour = z.object({
   dollar_charge: z.number('El cobro en dolares es requerido').optional(),
   bol_charge: z.number('El cobro en bolívares es requerido').optional(),
   dollar_rate: z.number('La tasa de cambio es requerida'),
@@ -200,3 +208,5 @@ export const VehicleWithBrandModelClientSchema = FormInputsArraySchema.pipe(Vehi
 export const VechileBrandSchema = FormInputsArraySchema.pipe(VechileBrandObjectSchema);
 export const ServiceVehicleSchemaStepTwo = FormInputsArraySchema.pipe(ServiceVehicleObjectSchemaStepTwo);
 export const ServiceVehicleSchemaStepThree = FormInputsArraySchema.pipe(ServiceVehicleObjectSchemaStepThree);
+export const ServiceVehicleSchemaStepFour = FormInputsArraySchema.pipe(ServiceVehicleObjectSchemaStepFour);
+export const RecipeSchema = FormInputsArraySchema.pipe(RecipeObjectSchema);

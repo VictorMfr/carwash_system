@@ -42,10 +42,10 @@ export default function ModuleDataGridModal() {
     }
 
     return (
-        <Dialog 
-        open={controller.modal.open} 
-        onClose={controller.closingHandler}
-        fullWidth
+        <Dialog
+            open={controller.modal.open}
+            onClose={controller.closingHandler}
+            fullWidth
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>

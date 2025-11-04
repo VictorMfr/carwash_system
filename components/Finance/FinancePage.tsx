@@ -134,6 +134,7 @@ const FinanceModule: ModuleFormGridData = {
                         label: 'Cuenta',
                         loadingType: 'screen',
                         newItemLabel: 'Agregar cuenta',
+                        labelField: 'name',
                         config: {
                             create: {
                                 name: 'Agregar cuenta',
@@ -178,6 +179,7 @@ const FinanceModule: ModuleFormGridData = {
                         label: 'Método',
                         loadingType: 'screen',
                         newItemLabel: 'Agregar método',
+                        labelField: 'name',
                         config: {
                             validation: MethodSchema
                         },

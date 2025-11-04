@@ -6,14 +6,14 @@ import { useModuleDataGridContext } from "../context";
 import { handleApiError } from "@/lib/error";
 import api from "@/lib/axios";
 
-const getPayload = (formValue: FormInput[]) => {
+export const getPayload = (formValue: FormInput[]) => {
     return formValue.reduce((acc, cur) => {
         acc[cur.field] = cur.value;
         return acc;
     }, {} as Record<string, any>);
 }
 
-const getFormDataPayload = (formValue: FormInput[]) => {
+export const getFormDataPayload = (formValue: FormInput[]) => {
     const formData = new FormData();
     formValue.forEach(item => {
         if (item.value instanceof Blob) {
@@ -53,8 +53,6 @@ export default function useModalController() {
     const { initialFormInputs, validateForm, sendFormErrors } = useFormDataController(datagridCtx.moduleSettings.columns);
     const [formValue, setFormValue] = useState<FormInput[]>(initialFormInputs);
 
-    
-
     const closingHandler = () => {
         datagridCtx.setModal({ ...datagridCtx.modal, open: false });
     }
@@ -72,9 +70,7 @@ export default function useModalController() {
 
         try {
             if (validation) {
-                console.log(formValue);
                 const error = validateForm(formValue, validation);
-                console.log(error);
                 if (error) return sendFormErrors(error, setFormValue);
             }
 
@@ -121,11 +117,7 @@ export default function useModalController() {
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        console.log('formValue', formValue);
-    }, [formValue]);
-
+    
     useEffect(() => {
         if (datagridCtx.modal.open) {
             if (datagridCtx.modal.type === 'add') {

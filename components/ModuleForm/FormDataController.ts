@@ -6,7 +6,7 @@ import { SwitchSwapRule } from "@/types/form/form";
 
 export interface FormInput {
     field: string;
-    value: string | number | boolean | Blob;
+    value: any;
     error: string;
     disabled: boolean;
     name?: string;

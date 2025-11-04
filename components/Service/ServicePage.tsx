@@ -7,20 +7,20 @@ import {
     ClientSchema,
     OperatorSchema,
     ServiceSchema,
+    ServiceVehicleSchemaStepFour,
     ServiceVehicleSchemaStepOne,
-    ServiceVehicleSchemaStepThree,
     ServiceVehicleSchemaStepTwo,
     VehicleWithBrandModelClientSchema
 } from "@/lib/definitions";
 import { Fragment } from "react";
 import dayjs from "dayjs";
 import getDollarRate from "@/lib/dollar";
+import RecipeCartInput from "../Settings/RecipeCartInput";
+import ModuleStats from "../ModuleStats/ModuleStats";
+import { ModuleStatsData } from "@/types/stats/stats";
+import { BarChart, Payment } from "@mui/icons-material";
 
 const dollarRate = await getDollarRate();
-
-
-
-// --- Smaller building blocks to keep the module definition maintainable ---
 
 // Fields used inside the vehicle creation form (nested in license_plate autocomplete)
 const vehicleCreateFormColumns: ColumnData[] = [
@@ -117,7 +117,13 @@ const stepOneData: ColumnData[] = [
         field: 'date',
         headerName: 'Fecha',
         inputConfig: { size: 12, id: 'date', date: {} },
-        renderCell: (params: any) => <Fragment>{dayjs(params.row.date).format('DD/MM/YYYY')}</Fragment>
+        renderCell: (params: any) => (
+            <Fragment>
+                {params.row.date !== null && params.row.date !== undefined
+                    ? dayjs(params.row.date).format('DD/MM/YYYY')
+                    : ''}
+            </Fragment>
+        )
     },
     {
         field: 'vehicleLicensePlate',
@@ -151,47 +157,40 @@ const stepTwoData: ColumnData[] = [
             }
         }
     },
-{
-    field: 'recipeName',
+    {
+        field: 'recipeName',
         headerName: 'Receta',
-            inputConfig: {
-        size: 12,
+        inputConfig: {
+            size: 12,
             id: 'recipeName',
-                autocomplete: {
-            url: '/api/service/recipe',
-                labelField: 'name',
-                    label: 'Receta',
-                        newItemLabel: 'Agregar receta',
-                            loadingType: { loadingText: 'Cargando recetas...' },
-            confirm: { title: 'Agregar receta', message: '¿Estás seguro de querer agregar esta receta?', successMessage: 'Receta agregada correctamente' }
-        }
-    }
-},
-{
-    field: 'operators',
-        headerName: 'Operadores',
-            inputConfig: {
-        size: 12,
-            id: 'operators',
-                autocomplete: {
-            url: '/api/service/operator',
-                labelField: 'name',
-                    label: 'Operadores',
-                        newItemLabel: 'Agregar operador',
-                            loadingType: { loadingText: 'Cargando operadores...' },
-            multiple: true,
-                config: { create: { name: 'Agregar operador', description: 'Agregar operador' }, validation: OperatorSchema },
-            formData: { createFillField: 'name', columns: { data: operatorCreateFormColumns } }
+            custom: RecipeCartInput
         }
     },
-    renderCell: (params: any) => (
-        <Fragment>
-            {params.row.operators.map((operator: any) => (
-                <Chip key={operator.id} label={`${operator.name} ${operator.lastname}`} />
-            ))}
-        </Fragment>
-    )
-}
+    {
+        field: 'operators',
+        headerName: 'Operadores',
+        inputConfig: {
+            size: 12,
+            id: 'operators',
+            autocomplete: {
+                url: '/api/service/operator',
+                labelField: 'name',
+                label: 'Operadores',
+                newItemLabel: 'Agregar operador',
+                loadingType: { loadingText: 'Cargando operadores...' },
+                multiple: true,
+                config: { create: { name: 'Agregar operador', description: 'Agregar operador' }, validation: OperatorSchema },
+                formData: { createFillField: 'name', columns: { data: operatorCreateFormColumns } }
+            }
+        },
+        renderCell: (params: any) => (
+            <Fragment>
+                {params.row.operators.map((operator: any) => (
+                    <Chip key={operator.id} label={`${operator.name} ${operator.lastname}`} />
+                ))}
+            </Fragment>
+        )
+    }
 ];
 
 // Step 3: Cobros y tasa
@@ -263,7 +262,7 @@ const serviceModule: ModuleFormGridData = {
             gridSpacing: 2
         },
         stepper: {
-            orientation: 'horizontal',
+            orientation: 'vertical',
             steps: [
                 {
                     label: 'Cliente y vehículo',
@@ -286,7 +285,7 @@ const serviceModule: ModuleFormGridData = {
                     config: {
                         gridSpacing: 2
                     },
-                    validation: ServiceVehicleSchemaStepThree,
+                    validation: ServiceVehicleSchemaStepFour,
                     data: stepThreeData
                 }
             ]
@@ -304,15 +303,104 @@ const serviceModule: ModuleFormGridData = {
     }
 }
 
+
+const serviceStats: ModuleStatsData = {
+    url: '/api/service/statistics',
+    loadingType: 'spinner',
+    size: 'small',
+    label: 'Estadísticas',
+    description: 'Aquí puedes ver las estadísticas de tus servicios.',
+    icon: BarChart,
+    tabs: [
+        {
+            label: 'Servicios',
+            description: 'Servicios',
+            useMenu: true,
+			graphs: [
+				{
+					id: 1,
+					label: 'Servicios por receta',
+					type: 'pie',
+					expectsFillArray: 'servicesByRecipe'
+				},
+				{
+					id: 2,
+					label: 'Servicios por vehículo',
+					type: 'pie',
+					expectsFillArray: 'servicesByVehicle'
+				},
+				{
+					id: 3,
+					label: 'Servicios por operador',
+					type: 'pie',
+					expectsFillArray: 'servicesByOperator'
+				},
+				{
+					id: 4,
+					label: 'Servicios por mes (últimos 6 meses)',
+					type: 'line',
+					expectsFillArray: 'servicesByMonth',
+					axis: { x: 'month', y: 'count' }
+				}
+			]
+        }
+    ]
+}
+
+const paymentModule: ModuleFormGridData = {
+    url: '/api/service/payments',
+    columns: {
+        config: {
+            gridSpacing: 2
+        },
+        data: [
+            {
+                field: 'operator',
+                headerName: 'Operador',
+                inputConfig: { size: 12, id: 'operator', date: {} },
+                flex: 1
+            },
+            {
+                field: 'payment',
+                headerName: 'Pago',
+                inputConfig: { size: 12, id: 'payment', number: { adornment: () => <>Bs</>, adornmentPosition: 'start' } },
+                flex: 1
+            }
+        ],
+    },
+    actions: {
+        config: {
+            field: 'actions',
+            headerName: 'Acciones',
+            width: 150
+        },
+        data: [{
+            name: 'Pagar',
+            icon: Payment,
+        }]
+    },
+    config: {
+        toolbar: {
+            data: [
+                {
+                    name: 'Pagar a todos',
+                    icon: Payment,
+                }
+            ]
+        }
+    },
+}
+
+
 export default function ServicePage() {
     return (
         <Grid container spacing={2}>
-            {/* <Grid size={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
                 <ModuleStats moduleStats={serviceStats} />
             </Grid>
-            <Grid size={6}>
-                <ModuleDataGrid moduleSettings={drawers} />
-            </Grid> */}
+            <Grid size={{ xs: 12, md: 6 }}>
+                <ModuleDataGrid moduleSettings={paymentModule} />
+            </Grid>
             <Grid size={12}>
                 <ModuleDataGrid moduleSettings={serviceModule} />
             </Grid>

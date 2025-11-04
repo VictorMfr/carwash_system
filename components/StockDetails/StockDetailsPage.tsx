@@ -4,9 +4,10 @@ import { ModuleFormGridData } from "@/types/datagrid/datagrid";
 import ModuleDataGrid from "../ModuleDataGrid";
 import PictureCell from "../ModuleDataGrid/PictureCell";
 
-const stockDetailsSettings: ModuleFormGridData = {
+export const stockDetailsSettings: ModuleFormGridData = {
     url: '/api/stock/details',
     columns: {
+        contentType: 'multipart/form-data',
         config: {
             gridSpacing: 2
         },

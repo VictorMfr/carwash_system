@@ -95,20 +95,35 @@ export default function ModuleToolbar({
             {shouldShowToolbarItem('columns', datagridCtx.moduleSettings) && (
                 <Tooltip title="Columnas">
                     <ColumnsPanelTrigger render={<ToolbarButton />}>
-                        <GridViewColumnIcon fontSize="small"  />
+                        <GridViewColumnIcon fontSize="small" />
                     </ColumnsPanelTrigger>
                 </Tooltip>
             )}
             {shouldShowToolbarItem('export', datagridCtx.moduleSettings) && (
                 <Tooltip title="Descargar como CSV">
-                    <ExportCsv render={<ToolbarButton />}>
+                    <ExportCsv 
+                    options={{
+                        fileName: datagridCtx.moduleSettings.label ?? 'Reporte',
+                    }}
+                    render={<ToolbarButton />}
+                    >
                         <FileDownload fontSize="small" />
                     </ExportCsv>
                 </Tooltip>
             )}
             {shouldShowToolbarItem('export', datagridCtx.moduleSettings) && (
                 <Tooltip title="Imprimir">
-                    <ExportPrint render={<ToolbarButton />}>
+                    <ExportPrint
+                        options={{
+                            hideFooter: true,
+                            hideToolbar: true,
+                            fields: datagridCtx.moduleSettings.columns.data?.map((col: any) => col.field) || [],
+                            fileName: datagridCtx.moduleSettings.label ?? 'Reporte',
+                            includeCheckboxes: false,
+                            pageStyle: 'A4',
+                        }}
+                        render={<ToolbarButton />}
+                    >
                         <Print fontSize="small" />
                     </ExportPrint>
                 </Tooltip>
@@ -136,14 +151,23 @@ export default function ModuleToolbar({
             )}
             {shouldShowToolbarItem('delete', datagridCtx.moduleSettings) && (
                 <Tooltip title="Eliminar">
-                    <ToolbarButton
-                        disabled={shouldDeleteDisabled(rowSelected, datagridCtx.fetchData)}
-                        onClick={handleBulkDelete}
-                    >
-                        <Delete fontSize="small" />
-                    </ToolbarButton>
+                    <span>
+                        <ToolbarButton
+                            disabled={shouldDeleteDisabled(rowSelected, datagridCtx.fetchData)}
+                            onClick={handleBulkDelete}
+                        >
+                            <Delete fontSize="small" />
+                        </ToolbarButton>
+                    </span>
                 </Tooltip>
             )}
+            {datagridCtx.moduleSettings.config?.toolbar?.data?.map((item) => (
+                <Tooltip title={item.name} key={item.name}>
+                    <ToolbarButton>
+                        <item.icon fontSize="small" />
+                    </ToolbarButton>
+                </Tooltip>
+            ))}
         </Toolbar>
     )
 }

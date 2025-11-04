@@ -58,7 +58,16 @@ export interface ModuleFormGridData extends Module {
 		append?: Record<string, any>;
 		rowHeight?: number;
 		toolbar?: {
-			show: ToolbarItem[];
+			data?: {
+				name: string;
+				icon: ComponentType<{ params: GridRenderCellParams } | any>;
+				dispatch?: ComponentType<{
+					setActionModal: (actionModal: { open: boolean, action: any, data: any }) => void,
+					actionModal: { open: boolean, action: any, data: any }
+				}>;
+				dispatchMode?: 'modal' | 'link';
+			}[];
+			show?: ToolbarItem[];
 		}
 		inputConfig?: {
 			allowCheckboxSelection: boolean;

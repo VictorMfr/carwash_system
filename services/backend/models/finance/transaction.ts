@@ -9,14 +9,6 @@ import {
     BelongsToGetAssociationMixin,
     BelongsToSetAssociationMixin,
     BelongsToCreateAssociationMixin,
-    BelongsToManyCreateAssociationMixin,
-    BelongsToManyAddAssociationMixin,
-    BelongsToManyRemoveAssociationsMixin,
-    BelongsToManyRemoveAssociationMixin,
-    BelongsToManyHasAssociationMixin,
-    BelongsToManySetAssociationsMixin,
-    BelongsToManyCountAssociationsMixin,
-    BelongsToManyGetAssociationsMixin
 } from 'sequelize';
 import db from '../../db';
 import Account from './account';

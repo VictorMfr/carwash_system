@@ -6,8 +6,8 @@ import DateField from "./Inputs/Date";
 import SwitchField from "./Inputs/Switch/Switch";
 import AutoCompleteField from "./Inputs/AutoComplete";
 import { useModuleFormContext } from "./context";
-import { FormInput } from "./FormDataController";
 import PictureField from "./Inputs/Picture/Picture";
+import CartField from "./Inputs/Cart/Cart";
 
 const RenderDataField = ({ dataField }: { dataField: FormDataField }) => {
     if (dataField.inputConfig?.select) {
@@ -32,6 +32,14 @@ const RenderDataField = ({ dataField }: { dataField: FormDataField }) => {
 
     if (dataField.inputConfig.autocomplete) {
         return <AutoCompleteField dataField={dataField} />
+    }
+
+    if (dataField.inputConfig?.cart) {
+        return <CartField dataField={dataField} />
+    }
+
+    if (dataField.inputConfig?.custom) {
+        return <dataField.inputConfig.custom dataField={dataField} />
     }
 
     return <TextField dataField={dataField} />

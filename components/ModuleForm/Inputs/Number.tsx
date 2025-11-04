@@ -4,7 +4,7 @@ import { Fragment, useEffect, useMemo } from "react";
 import useInputController from "./InputController";
 import { useModuleFormContext } from "../context";
 
-export default function NumberField({ dataField }: { dataField: FormDataField }) {
+export default function NumberField({ dataField, onChange, innerValue }: { dataField: FormDataField, onChange?: (value: number) => void, innerValue?: number }) {
 
     const { value, error, disabled } = useInputController({ dataField });
 
@@ -14,6 +14,7 @@ export default function NumberField({ dataField }: { dataField: FormDataField })
 
     const changeFieldHandler = (event: any) => {
         formCtx.setFormValue(prev => prev.map(input => input.field === dataField.field ? { ...input, value: Number(event.target.value), error: '' } : input));
+        onChange?.(Number(event.target.value));
     }
 
     const adornment = (
@@ -31,7 +32,7 @@ export default function NumberField({ dataField }: { dataField: FormDataField })
             <OutlinedInput
                 id={`${dataField.field}-label`}
                 type="number"
-                value={value}
+                value={innerValue ?? value ?? null}
                 onChange={changeFieldHandler}
                 fullWidth
                 label={dataField.headerName}

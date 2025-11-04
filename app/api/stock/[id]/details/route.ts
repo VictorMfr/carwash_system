@@ -62,8 +62,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         const brand = form.get('brand');
         const state = form.get('state');
 
-        console.log("VALORES RECIBIDOS", quantity, price, picture, entry_date, brand, state);
-
         // Store the picture in the uploads folder
         const picturePath = await storeAndGetPicturePath(picture, 'stockDetails');
 
@@ -102,6 +100,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
         return NextResponse.json(response);
     } catch (error) {
+        console.log(error);
         return handleServerError(error);
     }
 }

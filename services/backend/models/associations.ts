@@ -7,7 +7,6 @@ import StockDetails from './stock/stockDetails';
 import StockBrand from './stock/brand';
 import State from './stock/state';
 import Recipe from './service/recipe';
-import RecipeProduct from './service/recipeProduct';
 import Service from './service/service';
 import Operator from './service/operator';
 import Vehicle from './service/vehicle/vehicle';
@@ -17,12 +16,14 @@ import Account from './finance/account';
 import Transaction from './finance/transaction';
 import Method from './finance/method';
 import VehicleModel from './service/vehicle/model';
+import RecipeStockDetails from './service/recipeStockDetails';
+import ServiceStockDetails from './service/serviceStockDetails';
 
 // services/backend/models/associations.ts
 User.belongsToMany(Role, {
     through: 'user_roles',
     as: 'Roles',
-    foreignKey: 'userId',       // <-- fija las columnas de la pivote
+    foreignKey: 'userId',
     otherKey: 'roleId',
 });
 Role.belongsToMany(User, {
@@ -48,34 +49,50 @@ Stock.hasMany(StockDetails);
 StockDetails.belongsTo(Stock);
 
 // Service module
-Recipe.hasMany(Service);
-Service.belongsTo(Recipe);
-
-Recipe.belongsToMany(StockDetails, { 
-    through: 'recipes_stock_details_products', 
-    as: 'RecipeStockDetails',
+Recipe.hasMany(Service, {
+    as: 'Services',
     foreignKey: 'recipeId',
-    otherKey: 'stockDetailId'
 });
-StockDetails.belongsToMany(Recipe, { 
-    through: 'recipes_stock_details_products', 
+
+Service.belongsTo(Recipe, {
+    as: 'Recipe',
+    foreignKey: 'recipeId',
+});
+
+
+
+
+
+Recipe.belongsToMany(StockDetails, {
+    through: RecipeStockDetails,
+    as: 'StockDetails',
+    foreignKey: 'recipeId',
+    otherKey: 'stockDetailId',
+});
+StockDetails.belongsToMany(Recipe, {
+    through: RecipeStockDetails,
     as: 'Recipes',
     foreignKey: 'stockDetailId',
-    otherKey: 'recipeId'
+    otherKey: 'recipeId',
 });
+RecipeStockDetails.belongsTo(StockDetails, { as: 'StockDetails', foreignKey: 'stockDetailId' });
+RecipeStockDetails.belongsTo(Recipe, { as: 'Recipe', foreignKey: 'recipeId' });
 
-Service.belongsToMany(StockDetails, { 
-    through: 'services_stock_details_additional_products', 
-    as: 'ServiceStockDetails',
+Service.belongsToMany(StockDetails, {
+    through: ServiceStockDetails,
+    as: 'StockDetails',
     foreignKey: 'serviceId',
-    otherKey: 'stockDetailId'
+    otherKey: 'stockDetailId',
 });
-StockDetails.belongsToMany(Service, { 
-    through: 'services_stock_details_additional_products', 
+StockDetails.belongsToMany(Service, {
+    through: ServiceStockDetails,
     as: 'Services',
     foreignKey: 'stockDetailId',
-    otherKey: 'serviceId'
+    otherKey: 'serviceId',
 });
+
+ServiceStockDetails.belongsTo(StockDetails, { as: 'StockDetails', foreignKey: 'stockDetailId' });
+ServiceStockDetails.belongsTo(Service, { as: 'Service', foreignKey: 'serviceId' });
 
 Service.belongsToMany(Operator, { 
     through: 'services_operators', 
@@ -112,19 +129,6 @@ Transaction.belongsTo(Account, { as: 'Account', foreignKey: 'accountId' });
 Method.hasMany(Transaction, { as: 'Transactions', foreignKey: 'methodId' });
 Transaction.belongsTo(Method, { as: 'Method', foreignKey: 'methodId' });
 
-// Recipe <-> Product (many-to-many) via recipes_products
-Recipe.belongsToMany(Product, { 
-    through: RecipeProduct,
-    as: 'Products',
-    foreignKey: 'recipeId',
-    otherKey: 'productId'
-});
-Product.belongsToMany(Recipe, { 
-    through: RecipeProduct,
-    as: 'ProductRecipes',
-    foreignKey: 'productId',
-    otherKey: 'recipeId'
-});
 
 export {
     User,

@@ -1,6 +1,4 @@
 import StockDetailsPage from "@/components/StockDetails/StockDetailsPage";
-import { Product, Stock, StockDetails } from "@/services/backend/models/associations";
-import { notFound } from "next/navigation";
 
 
 // Server side component

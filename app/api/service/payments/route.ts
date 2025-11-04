@@ -1,61 +1,55 @@
 import { Service, Recipe, Operator, Vehicle, Client } from "@/services/backend/models/associations";
 import { NextResponse } from "next/server";
 import { handleServerError } from "@/lib/error";
+import { getOperatorPaymentPercentage } from "@/services/backend/config/settings";
 
 // Get payments
 export async function GET() {
     try {
-        const payments = await Service.findAll({
+        // Fetch services with operators to compute per-operator owed amounts
+        const services = await Service.findAll({
             attributes: [
                 'id',
                 'date',
-                'created_at',
-                'updated_at'
+                'bol_charge'
             ],
             include: [
                 {
-                    model: Recipe,
-                    as: 'Recipe',
-                    attributes: ['name']
-                },
-                {
-                    model: Vehicle,
-                    as: 'Vehicle',
-                    attributes: ['license_plate'],
-                    include: [{
-                        model: Client,
-                        as: 'Clients',
-                        attributes: ['name', 'lastname']
-                    }]
-                },
-                {
                     model: Operator,
                     as: 'Operators',
-                    attributes: ['name', 'lastname']
+                    attributes: ['id', 'name', 'lastname'],
+                    through: { attributes: [] }
                 }
-            ],
-            order: [['date', 'DESC']]
+            ]
         });
 
-        // Transform the data to include payment status and client info
-        const transformedPayments = payments.map(service => {
-            // Simulate payment status based on some logic
-            // In a real app, this would come from a Payment model
-            const isRecent = new Date(service.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // Last 7 days
-            const status = isRecent ? 'pending' : 'complete';
-            
-            return {
-                id: service.id,
-                date: service.date,
-                vehicle: service.Vehicle?.license_plate || 'N/A',
-                client: 'test',
-                status: status,
-                created_at: 'test',
-                updated_at: 'test'
-            };
-        });
+        const percentage = await getOperatorPaymentPercentage(); // fraction (e.g., 0.3)
 
-        return NextResponse.json(transformedPayments);
+        // Aggregate owed per operator: each service's operator pool shares equally
+        const operatorIdToData = new Map<number, { id: number, name: string, lastname: string, totalShareBase: number }>();
+
+        for (const service of services) {
+            const serviceAny = service as any;
+            const operators = (serviceAny.Operators ?? []) as Array<{ id: number, name: string, lastname: string }>;
+            if (!operators.length) continue;
+            const shareBase = Number(serviceAny.bol_charge) / operators.length;
+            for (const op of operators) {
+                const current = operatorIdToData.get(op.id);
+                if (current) {
+                    current.totalShareBase += shareBase;
+                } else {
+                    operatorIdToData.set(op.id, { id: op.id, name: op.name, lastname: op.lastname, totalShareBase: shareBase });
+                }
+            }
+        }
+
+        const rows = Array.from(operatorIdToData.values()).map((op, index) => ({
+            id: op.id,
+            operator: `${op.name} ${op.lastname}`,
+            payment: Number((op.totalShareBase * percentage).toFixed(2))
+        }));
+
+        return NextResponse.json(rows);
     } catch (error) {
         return handleServerError(error);
     }

@@ -19,7 +19,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     try {
         const { id } = await params;
         const body = await request.json();
-        const { name, lastname, phone, address, email, password } = UserUpdateSchema.parse(body);
+        const { name, lastname, phone, address, email } = UserUpdateSchema.parse(body);
 
         const user = await User.findByPk(id);
 
@@ -27,7 +27,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        await user.update({ name, lastname, phone, address, email, password });
+        await user.update({ name, lastname, phone, address, email });
         return NextResponse.json(user);
     } catch (error) {
         return handleServerError(error);

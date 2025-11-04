@@ -4,12 +4,21 @@ import { Autocomplete } from "@mui/material";
 import useInputController from "./InputController";
 import AutocompleteModule from "@/components/ModuleAutocomplete/ModuleAutoComplete";
 
-export default function AutoCompleteField({ dataField }: { dataField: FormDataField }) {
+export default function AutoCompleteField({ 
+    dataField,
+    onChange,
+    innerValue
+ }: { 
+    dataField: FormDataField
+    onChange?: (value: any) => void;
+    innerValue?: any;
+}) {
     const formCtx = useModuleFormContext();
     const { value, error, disabled } = useInputController({ dataField });
 
     const changeHandler = (value: any) => {
         formCtx.setFormValue(prev => prev.map(input => input.field === dataField.field ? { ...input, value, error: '' } : input));
+        onChange?.(value);
     }
 
     return (
@@ -18,7 +27,7 @@ export default function AutoCompleteField({ dataField }: { dataField: FormDataFi
             onChange={changeHandler}
             error={!!error}
             helperText={error}
-            value={value ?? null}
+            value={innerValue ?? value ?? null}
             disabled={disabled}
         />
     )
