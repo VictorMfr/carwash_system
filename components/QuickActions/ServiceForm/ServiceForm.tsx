@@ -19,7 +19,7 @@ import api from "@/lib/axios";
 import { handleApiError } from "@/lib/error";
 import { useUIDisplayControls } from "@/hooks/UIDisplayControlsProvider";
 import withUIDisplayControls from "@/HOC/withUIDisplayControls";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 const dollarRate = await getDollarRate();
 
 // Fields used inside the vehicle creation form (nested in license_plate autocomplete)
@@ -288,31 +288,50 @@ const serviceForm: FormData = {
     }
 }
 
-const ServiceForm = () => {
 
+
+const ServiceForm = () => {
 
     const { initialFormInputs, validateForm, sendFormErrors } = useFormDataController(serviceForm);
     const [formValue, setFormValue] = useState<FormInput[]>(initialFormInputs);
+    const [activeStep, setActiveStep] = useState<number>(0);
     const uiContext = useUIDisplayControls();
-
+    const router = useRouter();
+    
     const submit = async () => {
         const errors = validateForm(formValue, ServiceVehicleSchemaStepFour);
         if (errors) return sendFormErrors(errors, setFormValue);
 
+        const data = {};
+        formValue.forEach(item => {
+            (data as any)[item.field] = item.value;
+        });
+
+
         try {
-            await api.post('/api/service', formValue);
+            await api.post('/api/service', data);
             uiContext.setSnackbar({ open: true, message: 'Servicio agregado correctamente', severity: 'success' });
-            uiContext.setAlert({ open: true, title: 'Agregar otro servicio', message: '¿Desea agregar otro servicio?', severity: 'warning', actions: [
-                { label: 'Cancel', onClick: () => uiContext.setAlert(prev => ({ ...prev, open: false })) },
-                { label: 'Agregar', onClick: () => {
-                    setFormValue(initialFormInputs);
-                } }
-            ] });
-            if (uiContext.alert.open) {
-                setFormValue(initialFormInputs);
-            } else {
-                router.push('/dashboard');
-            }
+            uiContext.setAlert({
+                open: true, title: 'Agregar otro servicio', message: '¿Desea agregar otro servicio?', severity: 'warning', actions: [
+                    {
+                        label: 'Cancel', onClick: () => {
+                            uiContext.setAlert(prev => ({ ...prev, open: false }));
+                            if (uiContext.alert.open) {
+                                setFormValue(initialFormInputs);
+                            } else {
+                                router.push('/dashboard');
+                            }
+                        }
+                    },
+                    {
+                        label: 'Agregar', onClick: () => {
+                            setFormValue(initialFormInputs);
+                            uiContext.setAlert(prev => ({ ...prev, open: false }));
+                            setActiveStep(0);
+                        }
+                    }
+                ]
+            });
         } catch (error) {
             handleApiError(error, uiContext);
         }
@@ -324,6 +343,8 @@ const ServiceForm = () => {
             formValue={formValue}
             onChangeFormData={setFormValue}
             onSubmit={submit}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
         />
     )
 }

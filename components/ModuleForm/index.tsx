@@ -49,6 +49,8 @@ export default function ModuleForm({
     onSubmit,
     onCancel,
     loading,
+    activeStep,
+    setActiveStep,
 }: {
     settings: FormData,
     formValue: FormInput[],
@@ -56,6 +58,8 @@ export default function ModuleForm({
     onSubmit?: () => void;
     onCancel?: () => void;
     loading?: boolean;
+    activeStep?: number;
+    setActiveStep?: Dispatch<SetStateAction<number>>;
 }) {
     return (
         <ModuleFormContext
@@ -65,6 +69,8 @@ export default function ModuleForm({
             onSubmit={onSubmit}
             onCancel={onCancel}
             loading={loading}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
         >
             <Form />
         </ModuleFormContext>

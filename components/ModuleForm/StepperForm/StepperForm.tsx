@@ -16,23 +16,24 @@ export default function StepperForm() {
         <Typography variant="h6">No hay pasos en el formulario de Stepper</Typography>
     );
 
+    const currentStep = formCtx.activeStep ?? controller.activeStep;
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
-            {formCtx.moduleSettings.stepper.steps[controller.activeStep].title && (
-                <Typography variant="h5">{formCtx.moduleSettings.stepper.steps[controller.activeStep].title}</Typography>
+            {formCtx.moduleSettings.stepper.steps[formCtx.activeStep || controller.activeStep].title && (
+                <Typography variant="h5">{formCtx.moduleSettings.stepper.steps[formCtx.activeStep || controller.activeStep].title}</Typography>
             )}
-            {formCtx.moduleSettings.stepper.steps[controller.activeStep].description && (
-                <Typography variant="body1">{formCtx.moduleSettings.stepper.steps[controller.activeStep].description}</Typography>
+            {formCtx.moduleSettings.stepper.steps[formCtx.activeStep || controller.activeStep].description && (
+                <Typography variant="body1">{formCtx.moduleSettings.stepper.steps[formCtx.activeStep || controller.activeStep].description}</Typography>
             )}
             <Stepper
-                activeStep={controller.activeStep}
+                activeStep={formCtx.activeStep ?? controller.activeStep}
                 orientation={formCtx.moduleSettings.stepper.orientation}
-                
+
             >
-                {formCtx.moduleSettings.stepper.steps.map((step) => (
+                {formCtx.moduleSettings.stepper.steps.map((step, index) => (
                     <Step key={step.label}>
-                        <StepLabel>{step.label}</StepLabel>
+                        <StepLabel error={controller.stepError === index}>{step.label}</StepLabel>
                         {formCtx.moduleSettings.stepper?.orientation === 'vertical' && (
                             <StepContent>
                                 <ModuleForm
@@ -52,7 +53,7 @@ export default function StepperForm() {
             {formCtx.moduleSettings.stepper.orientation === 'horizontal' && (
                 <Fragment>
                     {formCtx.moduleSettings.stepper.steps.map((step, index) => (
-                        <Box key={step.label} display={controller.activeStep === index ? 'block' : 'none'}>
+                        <Box key={step.label} display={formCtx.activeStep || controller.activeStep === index ? 'block' : 'none'}>
                             <ModuleForm
                                 key={step.label}
                                 settings={step}
@@ -66,9 +67,9 @@ export default function StepperForm() {
 
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="primary" onClick={controller.handleBack}>
-                    {controller.activeStep === 0 ? 'Cancelar' : 'Anterior'}
+                    {currentStep === 0 ? 'Cancelar' : 'Anterior'}
                 </Button>
-                {controller.activeStep !== formCtx.moduleSettings.stepper.steps.length - 1 && (
+                {((formCtx.activeStep && formCtx.activeStep < formCtx.moduleSettings.stepper.steps.length - 1) || controller.activeStep < formCtx.moduleSettings.stepper.steps.length - 1) && (
                     <Button
                         variant="contained"
                         color="primary"
@@ -77,7 +78,7 @@ export default function StepperForm() {
                         Siguiente
                     </Button>
                 )}
-                {controller.activeStep === formCtx.moduleSettings.stepper.steps.length - 1 && formCtx.onSubmit && (
+                {((formCtx.activeStep && formCtx.activeStep === formCtx.moduleSettings.stepper.steps.length - 1) || (controller.activeStep === formCtx.moduleSettings.stepper.steps.length - 1) && formCtx.onSubmit) && (
                     <Button
                         variant="contained"
                         color="primary"

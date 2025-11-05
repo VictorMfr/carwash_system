@@ -112,6 +112,7 @@ const DataGrid = () => {
                 rowSelectionModel={rowSelected}
                 onRowSelectionModelChange={changeRowHandler}
                 disableRowSelectionOnClick
+                {...(datagridCtx.moduleSettings.config?.append || {})}
             />
             <ModuleDataGridModal />
         </Stack>

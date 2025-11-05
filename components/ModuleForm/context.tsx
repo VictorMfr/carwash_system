@@ -10,16 +10,20 @@ export interface ModuleFormContextType {
     onSubmit?: () => void;
     onCancel?: () => void;
     loading?: boolean;
+    activeStep?: number;
+    setActiveStep?: Dispatch<SetStateAction<number>>;
 }
 
 const moduleFormContext = createContext<ModuleFormContextType>({
     moduleSettings: {} as FormData,
     setModuleSettings: () => { },
     formValue: [],
-    setFormValue: () => {},
-    onSubmit: () => {},
-    onCancel: () => {},
+    setFormValue: () => { },
+    onSubmit: () => { },
+    onCancel: () => { },
     loading: false,
+    activeStep: 0,
+    setActiveStep: () => { },
 });
 
 export function useModuleFormContext() {
@@ -37,7 +41,9 @@ export default function ModuleFormContext({
     onChangeFormData,
     onSubmit,
     onCancel,
-    loading
+    loading,
+    activeStep,
+    setActiveStep,
 }: {
     children: React.ReactNode,
     moduleSettings: FormData
@@ -46,8 +52,17 @@ export default function ModuleFormContext({
     onSubmit?: () => void;
     onCancel?: () => void;
     loading?: boolean;
+    activeStep?: number;
+    setActiveStep?: Dispatch<SetStateAction<number>>;
 }) {
     const [settingsState, setSettingsState] = useState(moduleSettings);
+    const [activeStepState, setActiveStepState] = useState<number>(activeStep || 0);
+
+
+    // usar props si vienen, si no, fallback al estado interno
+    const currentActiveStep = activeStep ?? activeStepState;
+    const updateActiveStep: Dispatch<SetStateAction<number>> = setActiveStep ?? setActiveStepState;
+
 
     const ctxData = {
         moduleSettings: settingsState,
@@ -57,6 +72,8 @@ export default function ModuleFormContext({
         onSubmit: onSubmit,
         onCancel: onCancel,
         loading,
+        activeStep: currentActiveStep,
+        setActiveStep: updateActiveStep,
     }
 
     return (

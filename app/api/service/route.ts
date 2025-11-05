@@ -90,8 +90,6 @@ const setServiceStockDetails = async (service: Service, body: any) => {
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        
-        console.log(body);
 
         const service = await createService(body);
         await setServiceAssociations(service, body);

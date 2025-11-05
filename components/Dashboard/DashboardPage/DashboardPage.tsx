@@ -58,8 +58,8 @@ export default function DashboardPage() {
     }, []);
 
     return (
-        <Grid container spacing={2}>
-            <Grid container spacing={2} size={{ xs: 12, md: 8 }}>
+        <Grid container spacing={2} >
+            <Grid container rowSpacing={4} size={{ xs: 12, md: 8 }}>
                 {/* Bienvenida */}
                 <Grid size={12}>
                     <Stack direction="row" alignItems="center">
@@ -136,23 +136,6 @@ export default function DashboardPage() {
                                     </Stack>
                                     <Typography variant="body1">Nueva transaccion</Typography>
                                     <Typography variant="body2">Crea una nueva transaccion y gestiona la información fácilmente.</Typography>
-                                </Stack>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                </Grid>
-
-                {/* Atajos a reportes */}
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <Card variant="outlined">
-                        <CardActionArea component={Link} href="/reports/all">
-                            <CardContent>
-                                <Stack>
-                                    <Stack direction="row" justifyContent="end" alignItems="center">
-                                        <Assessment color="primary" />
-                                    </Stack>
-                                    <Typography variant="body1">Reporte global</Typography>
-                                    <Typography variant="body2">Ver todos los reportes consolidados.</Typography>
                                 </Stack>
                             </CardContent>
                         </CardActionArea>

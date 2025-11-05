@@ -259,27 +259,48 @@ export default function NavBar() {
                 </Link>
             </Collapse>
 
-        <Divider />
-
-        {/* Settings */}
-        <Link href="/dashboard/settings">
-            <ListItemButton sx={{ borderRadius: '5px' }}>
+            {/* Marketing - Nested List */}
+            <ListItemButton onClick={controller.handleMarketingClick} sx={{ borderRadius: '5px' }}>
                 <ListItemIcon>
-                    <Settings />
+                    <Group />
                 </ListItemIcon>
-                <ListItemText primary="Configuración" />
+                <ListItemText primary="Marketing" />
+                {controller.marketingOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-        </Link>
+            <Collapse in={controller.marketingOpen} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                    <Link href="/dashboard/marketing">
+                        <ListItemButton sx={{ pl: 4, borderRadius: '5px' }}>
+                            <ListItemIcon>
+                                <Group />
+                            </ListItemIcon>
+                            <ListItemText primary="Clientes" />
+                        </ListItemButton>
+                    </Link>
+                </List>
+            </Collapse>
 
-        {/* Notifications */}
-        <Link href="/dashboard/notification">
-            <ListItemButton sx={{ borderRadius: '5px' }}>
-                <ListItemIcon>
-                    <Notifications />
-                </ListItemIcon>
-                <ListItemText primary="Notificaciones" />
-            </ListItemButton>
-        </Link>
+            <Divider />
+
+            {/* Settings */}
+            <Link href="/dashboard/settings">
+                <ListItemButton sx={{ borderRadius: '5px' }}>
+                    <ListItemIcon>
+                        <Settings />
+                    </ListItemIcon>
+                    <ListItemText primary="Configuración" />
+                </ListItemButton>
+            </Link>
+
+            {/* Notifications */}
+            <Link href="/dashboard/notification">
+                <ListItemButton sx={{ borderRadius: '5px' }}>
+                    <ListItemIcon>
+                        <Notifications />
+                    </ListItemIcon>
+                    <ListItemText primary="Notificaciones" />
+                </ListItemButton>
+            </Link>
 
 
         </List>
