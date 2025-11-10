@@ -30,6 +30,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         await user.update({ name, lastname, phone, address, email });
         return NextResponse.json(user);
     } catch (error) {
+        console.log('ESTE ES EL ERROR', error);
         return handleServerError(error);
     }
 }
@@ -38,7 +39,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await params;
+        console.log('ESTE ES EL VALOR DE ID', id);
         const user = await User.findByPk(id);
+        
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }

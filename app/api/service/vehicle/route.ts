@@ -1,5 +1,6 @@
 import { Vehicle, VehicleBrand, VehicleModel, Client } from "@/services/backend/models/associations";
 import { NextResponse } from "next/server";
+import { Op } from "sequelize";
 
 // Create vehicle
 export async function POST(request: Request) {
@@ -100,7 +101,17 @@ export async function DELETE(request: Request) {
         if (!ids || !Array.isArray(ids) || ids.length === 0) {
             return NextResponse.json({ error: 'No vehicle IDs provided' }, { status: 400 });
         }
-        const deletedCount = await Vehicle.destroy({ where: { id: ids } });
+
+        // Normalize ids to numbers and use IN operator explicitly to avoid dialect quirks
+        const normalizedIds = ids.map((id: string | number) => Number(id)).filter((n) => !Number.isNaN(n));
+        if (normalizedIds.length === 0) {
+            return NextResponse.json({ error: 'No valid vehicle IDs provided' }, { status: 400 });
+        }
+
+        const deletedCount = await Vehicle.destroy({
+            where: { id: { [Op.in]: normalizedIds } },
+        });
+
         return NextResponse.json({ message: `${deletedCount} vehicles deleted successfully`, deletedCount });
     } catch (error) {
         console.log(error);

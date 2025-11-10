@@ -1,15 +1,15 @@
 import { User } from "@/services/backend/models/associations";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Op } from "sequelize";
-import { UserObjectCreateSchema } from "@/lib/definitions";
+import { UserCreateSchema, UserObjectCreateSchema } from "@/lib/definitions";
 import { handleServerError } from "@/lib/error";
 
 // Create user
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { name, lastname, phone, address, email, password } = UserObjectCreateSchema.parse(body);
+        const { name, lastname, phone, address, email, password } = UserCreateSchema.parse(body);
 
         const isUserInDB = await User.findOne({
             where: { email },

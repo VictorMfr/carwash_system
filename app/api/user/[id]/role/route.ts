@@ -13,7 +13,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         }
         
         const roles = await user.getRoles();
-        console.log(roles);
         return NextResponse.json(roles);
     } catch (error) {
         return handleServerError(error);
